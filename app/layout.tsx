@@ -7,25 +7,52 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'ForgeCareerAI - AI-Powered Resume Optimization',
+  title: {
+    default: 'ForgeCareerAI - AI-Powered Resume Optimization',
+    template: '%s | ForgeCareerAI',
+  },
   description: 'Land more interviews with AI-optimized resumes. ForgeCareerAI tailors your resume to job descriptions for maximum ATS compatibility.',
-  generator: 'v0.app',
-  icons: {
-    icon: [
+  keywords: ['resume optimization', 'AI resume', 'ATS optimization', 'job search', 'career tools', 'resume builder', 'cover letter generator'],
+  authors: [{ name: 'ForgeCareerAI' }],
+  creator: 'ForgeCareerAI',
+  metadataBase: new URL('https://forgecareerai.com'),
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://forgecareerai.com',
+    siteName: 'ForgeCareerAI',
+    title: 'ForgeCareerAI - AI-Powered Resume Optimization',
+    description: 'Land more interviews with AI-optimized resumes. ForgeCareerAI tailors your resume to job descriptions for maximum ATS compatibility.',
+    images: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ForgeCareerAI - AI-Powered Resume Optimization',
       },
     ],
-    apple: '/apple-icon.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ForgeCareerAI - AI-Powered Resume Optimization',
+    description: 'Land more interviews with AI-optimized resumes. ForgeCareerAI tailors your resume to job descriptions for maximum ATS compatibility.',
+    images: ['/og-image.png'],
+    creator: '@forgecareerai',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
   },
 }
 
