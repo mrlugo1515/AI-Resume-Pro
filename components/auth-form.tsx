@@ -3,12 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { authClient } from '@/lib/auth-client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Sparkles } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 
 interface AuthFormProps {
   mode: 'sign-in' | 'sign-up'
@@ -62,10 +63,14 @@ export function AuthForm({ mode }: AuthFormProps) {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="inline-flex items-center justify-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-gradient-card rounded-xl flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-text-primary">AI Resume Pro</span>
+            <Image
+              src="/logo.png"
+              alt="ForgeCareerAI"
+              width={40}
+              height={40}
+              className="rounded-lg"
+            />
+            <span className="text-xl font-bold text-text-primary">ForgeCareerAI</span>
           </Link>
           <CardTitle className="text-2xl">
             {mode === 'sign-in' ? 'Welcome back' : 'Create an account'}

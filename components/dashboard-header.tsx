@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Sparkles, User, LogOut } from 'lucide-react'
+import { User, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -29,10 +30,14 @@ export function DashboardHeader() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-gradient-card rounded-xl flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-lg font-bold text-text-primary">AI Resume Pro</span>
+            <Image
+              src="/logo.png"
+              alt="ForgeCareerAI"
+              width={36}
+              height={36}
+              className="rounded-lg"
+            />
+            <span className="text-lg font-bold text-text-primary">ForgeCareerAI</span>
           </Link>
 
           {/* User menu */}
