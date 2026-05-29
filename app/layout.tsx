@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'ForgeCareerAI - AI-Powered Resume Optimization',
+  description: 'Land more interviews with AI-optimized resumes. ForgeCareerAI tailors your resume to job descriptions for maximum ATS compatibility.',
   generator: 'v0.app',
   icons: {
     icon: [

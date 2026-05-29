@@ -32,7 +32,7 @@ export function DashboardHeader() {
             <div className="w-9 h-9 bg-gradient-card rounded-xl flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg font-bold text-text-primary">AI Resume Pro</span>
+            <span className="text-lg font-bold text-text-primary">ForgeCareerAI</span>
           </Link>
 
           {/* User menu */}
