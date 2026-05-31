@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : process.env.VERCEL_URL 
       ? `https://${process.env.VERCEL_URL}`
-      : 'https://airesumepro.vercel.app'
+      : 'https://forgecareerai.com'
 
   return {
     rules: {

@@ -8,23 +8,24 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'AI Resume Pro - Optimize Your Resume with AI',
-    template: '%s | AI Resume Pro',
+    default: 'ForgeCareerAI - Forge Your Career with AI-Powered Resumes',
+    template: '%s | ForgeCareerAI',
   },
-  description: 'Transform your resume with AI-powered optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
-  keywords: ['resume', 'AI', 'resume builder', 'ATS optimization', 'career', 'job search', 'resume optimization'],
-  authors: [{ name: 'AI Resume Pro' }],
+  description: 'Forge your career path with AI-powered resume optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
+  keywords: ['resume', 'AI', 'resume builder', 'ATS optimization', 'career', 'job search', 'resume optimization', 'ForgeCareerAI'],
+  authors: [{ name: 'ForgeCareerAI' }],
+  metadataBase: new URL('https://forgecareerai.com'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'AI Resume Pro',
-    title: 'AI Resume Pro - Optimize Your Resume with AI',
-    description: 'Transform your resume with AI-powered optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
+    siteName: 'ForgeCareerAI',
+    title: 'ForgeCareerAI - Forge Your Career with AI-Powered Resumes',
+    description: 'Forge your career path with AI-powered resume optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Resume Pro - Optimize Your Resume with AI',
-    description: 'Transform your resume with AI-powered optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
+    title: 'ForgeCareerAI - Forge Your Career with AI-Powered Resumes',
+    description: 'Forge your career path with AI-powered resume optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
   },
   robots: {
     index: true,

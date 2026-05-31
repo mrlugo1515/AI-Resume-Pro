@@ -65,7 +65,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             <div className="w-10 h-10 bg-gradient-card rounded-xl flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-text-primary">AI Resume Pro</span>
+            <span className="text-xl font-bold text-text-primary">ForgeCareerAI</span>
           </Link>
           <CardTitle className="text-2xl">
             {mode === 'sign-in' ? 'Welcome back' : 'Create an account'}

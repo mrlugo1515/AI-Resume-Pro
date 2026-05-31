@@ -60,7 +60,7 @@ const testimonials = [
   {
     name: 'Sarah Chen',
     role: 'Product Manager at Stripe',
-    content: "I was applying to 20+ jobs with no responses. After using AI Resume Pro, I got 3 interviews in the first week. The keyword optimization is a game changer.",
+    content: "I was applying to 20+ jobs with no responses. After using ForgeCareerAI, I got 3 interviews in the first week. The keyword optimization is a game changer.",
     rating: 5,
   },
   {
@@ -72,7 +72,7 @@ const testimonials = [
   {
     name: 'Emily Park',
     role: 'Marketing Director at HubSpot',
-    content: 'As someone who reviews hundreds of resumes, I can instantly tell the difference. AI Resume Pro produces results that actually stand out. Highly recommend.',
+    content: 'As someone who reviews hundreds of resumes, I can instantly tell the difference. ForgeCareerAI produces results that actually stand out. Highly recommend.',
     rating: 5,
   },
 ]

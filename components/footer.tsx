@@ -12,7 +12,7 @@ export function Footer() {
               <div className="w-9 h-9 bg-gradient-card rounded-xl flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-text-primary">AI Resume Pro</span>
+              <span className="text-lg font-bold text-text-primary">ForgeCareerAI</span>
             </Link>
             <p className="text-sm text-text-secondary max-w-sm">
               AI-powered resume optimization that helps you land more interviews. 
@@ -62,7 +62,7 @@ export function Footer() {
 
         <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-text-muted">
-            &copy; {new Date().getFullYear()} AI Resume Pro. All rights reserved.
+            &copy; {new Date().getFullYear()} ForgeCareerAI. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="text-xs text-text-muted hover:text-text-secondary transition-colors">
