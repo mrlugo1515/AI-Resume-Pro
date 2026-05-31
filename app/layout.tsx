@@ -21,11 +21,20 @@ export const metadata: Metadata = {
     siteName: 'ForgeCareerAI',
     title: 'ForgeCareerAI - Forge Your Career with AI-Powered Resumes',
     description: 'Forge your career path with AI-powered resume optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ForgeCareerAI - AI-Powered Resume Optimization',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'ForgeCareerAI - Forge Your Career with AI-Powered Resumes',
     description: 'Forge your career path with AI-powered resume optimization. Get ATS-friendly resumes tailored to your dream job in minutes.',
+    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -33,21 +42,8 @@ export const metadata: Metadata = {
   },
   generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
 }
 
