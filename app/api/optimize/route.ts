@@ -92,7 +92,7 @@ Return only the completely rewritten resume text, formatted professionally. No e
     const { text: optimizedResume } = await generateText({
       model: 'openai/gpt-4o-mini',
       prompt,
-      maxTokens: 4000,
+      maxOutputTokens: 4000,
     })
 
     // Calculate a simple ATS score (based on keyword matching)

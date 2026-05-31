@@ -43,7 +43,7 @@ Return only the cover letter text, starting with the greeting (e.g., "Dear Hirin
     const { text: coverLetter } = await generateText({
       model: 'openai/gpt-4o-mini',
       prompt,
-      maxTokens: 2000,
+      maxOutputTokens: 2000,
     })
 
     return NextResponse.json({ coverLetter })
