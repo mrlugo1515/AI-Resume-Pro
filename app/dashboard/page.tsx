@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { headers } from 'next/headers'
-import { FileText, Plus, Clock, Download, TrendingUp, Target, Zap, Eye, ArrowUpRight, Calendar, BarChart3 } from 'lucide-react'
+import { FileText, Plus, Clock, Download, TrendingUp, Target, Zap, Eye, ArrowUpRight, Calendar, BarChart3, Briefcase, Search } from 'lucide-react'
 import { auth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -121,7 +121,7 @@ export default async function DashboardPage() {
                 <Zap className="w-4 h-4 text-accent-500" />
                 Quick Actions
               </h3>
-              <div className="grid sm:grid-cols-2 gap-3">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <Link href="/dashboard/new" className="group">
                   <div className="p-4 rounded-xl border border-border bg-surface hover:bg-primary-50 hover:border-primary-200 transition-all">
                     <div className="flex items-center gap-3">
@@ -147,6 +147,34 @@ export default async function DashboardPage() {
                         <p className="text-xs text-text-muted">Tailored to job description</p>
                       </div>
                       <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-accent-600 transition-colors" />
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/jobs" className="group">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-blue-50 hover:border-blue-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                        <Briefcase className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-text-primary text-sm">Browse Jobs</p>
+                        <p className="text-xs text-text-muted">Find your next opportunity</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-blue-600 transition-colors" />
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/jobs/post" className="group">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-green-50 hover:border-green-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                        <Search className="w-5 h-5 text-green-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-text-primary text-sm">Post a Job</p>
+                        <p className="text-xs text-text-muted">Find qualified candidates</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-green-600 transition-colors" />
                     </div>
                   </div>
                 </Link>
