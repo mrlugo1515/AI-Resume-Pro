@@ -1,16 +1,13 @@
 import Link from 'next/link'
-import { ArrowRight, Upload, Sparkles, Download, Check, Star, Zap, Shield, Target, TrendingUp } from 'lucide-react'
+import { ArrowRight, Upload, Sparkles, Download, Check, Star, Zap, Shield, Target, TrendingUp, FileText, Users } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { LandingHeader } from '@/components/landing-header'
 import { Footer } from '@/components/footer'
-
-const stats = [
-  { value: '3x', label: 'More Interviews', description: 'on average' },
-  { value: '85%', label: 'ATS Pass Rate', description: 'industry leading' },
-  { value: '10k+', label: 'Resumes Optimized', description: 'and counting' },
-  { value: '4.9', label: 'User Rating', description: 'out of 5 stars' },
-]
+import { CompanyLogos } from '@/components/company-logos'
+import { BeforeAfterDemo } from '@/components/before-after-demo'
+import { FAQ } from '@/components/faq'
+import { AnimatedStats } from '@/components/animated-stats'
 
 const features = [
   {
@@ -171,23 +168,15 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Stats bar */}
-        <div className="relative max-w-6xl mx-auto mt-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-800">
-            {stats.map((stat, i) => (
-              <div 
-                key={stat.label} 
-                className="bg-zinc-900/80 p-6 text-center animate-fade-in-up"
-                style={{ animationDelay: `${0.4 + i * 0.1}s` }}
-              >
-                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">{stat.value}</p>
-                <p className="text-sm font-medium text-zinc-300">{stat.label}</p>
-                <p className="text-xs text-zinc-500">{stat.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Animated Stats */}
+        <AnimatedStats />
+        
+        {/* Company Logos */}
+        <CompanyLogos />
       </section>
+
+      {/* Before/After Demo */}
+      <BeforeAfterDemo />
 
       {/* How It Works */}
       <section id="how-it-works" className="py-24 px-4 bg-surface">
@@ -360,6 +349,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* FAQ Section */}
+      <FAQ />
 
       {/* Final CTA */}
       <section className="py-24 px-4 bg-gradient-dark relative overflow-hidden">

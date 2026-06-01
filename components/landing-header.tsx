@@ -53,12 +53,19 @@ export function LandingHeader() {
             }`}>
               Pricing
             </a>
-            <a href="#testimonials" className={`text-sm font-medium transition-colors ${
+            <Link href="/blog" className={`text-sm font-medium transition-colors ${
               scrolled 
                 ? 'text-text-secondary hover:text-text-primary' 
                 : 'text-zinc-300 hover:text-white'
             }`}>
-              Testimonials
+              Resources
+            </Link>
+            <a href="#faq" className={`text-sm font-medium transition-colors ${
+              scrolled 
+                ? 'text-text-secondary hover:text-text-primary' 
+                : 'text-zinc-300 hover:text-white'
+            }`}>
+              FAQ
             </a>
           </div>
 
@@ -109,12 +116,19 @@ export function LandingHeader() {
               >
                 Pricing
               </a>
-              <a
-                href="#testimonials"
+              <Link
+                href="/blog"
                 className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Testimonials
+                Resources
+              </Link>
+              <a
+                href="#faq"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                FAQ
               </a>
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
                 <Link href="/sign-in">
