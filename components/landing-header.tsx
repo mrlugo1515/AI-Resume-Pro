@@ -1,34 +1,63 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Menu, X, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function LandingHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-border">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled 
+        ? 'bg-white/95 backdrop-blur-md border-b border-border shadow-sm' 
+        : 'bg-transparent'
+    }`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-gradient-card rounded-xl flex items-center justify-center">
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <span className="text-lg font-bold text-text-primary">ForgeCareerAI</span>
+            <span className={`text-lg font-bold transition-colors ${
+              scrolled ? 'text-text-primary' : 'text-white'
+            }`}>
+              ForgeCareerAI
+            </span>
           </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm text-text-secondary hover:text-text-primary transition-colors">
-              Features
+            <a href="#how-it-works" className={`text-sm font-medium transition-colors ${
+              scrolled 
+                ? 'text-text-secondary hover:text-text-primary' 
+                : 'text-zinc-300 hover:text-white'
+            }`}>
+              How It Works
             </a>
-            <a href="#pricing" className="text-sm text-text-secondary hover:text-text-primary transition-colors">
+            <a href="#pricing" className={`text-sm font-medium transition-colors ${
+              scrolled 
+                ? 'text-text-secondary hover:text-text-primary' 
+                : 'text-zinc-300 hover:text-white'
+            }`}>
               Pricing
             </a>
-            <a href="#testimonials" className="text-sm text-text-secondary hover:text-text-primary transition-colors">
+            <a href="#testimonials" className={`text-sm font-medium transition-colors ${
+              scrolled 
+                ? 'text-text-secondary hover:text-text-primary' 
+                : 'text-zinc-300 hover:text-white'
+            }`}>
               Testimonials
             </a>
           </div>
@@ -36,16 +65,26 @@ export function LandingHeader() {
           {/* Auth buttons */}
           <div className="hidden md:flex items-center gap-3">
             <Link href="/sign-in">
-              <Button variant="ghost" size="sm">Log In</Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className={scrolled ? '' : 'text-zinc-300 hover:text-white hover:bg-white/10'}
+              >
+                Log In
+              </Button>
             </Link>
             <Link href="/sign-up">
-              <Button size="sm">Get Started</Button>
+              <Button size="sm" className="bg-primary-600 hover:bg-primary-700 text-white">
+                Get Started
+              </Button>
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 text-text-secondary hover:text-text-primary"
+            className={`md:hidden p-2 transition-colors ${
+              scrolled ? 'text-text-secondary hover:text-text-primary' : 'text-zinc-300 hover:text-white'
+            }`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -54,25 +93,25 @@ export function LandingHeader() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="md:hidden py-4 border-t border-border bg-white rounded-b-xl shadow-lg">
             <div className="flex flex-col gap-4">
               <a
-                href="#features"
-                className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+                href="#how-it-works"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Features
+                How It Works
               </a>
               <a
                 href="#pricing"
-                className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Pricing
               </a>
               <a
                 href="#testimonials"
-                className="text-sm text-text-secondary hover:text-text-primary transition-colors"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Testimonials
@@ -82,7 +121,7 @@ export function LandingHeader() {
                   <Button variant="ghost" className="w-full justify-center">Log In</Button>
                 </Link>
                 <Link href="/sign-up">
-                  <Button className="w-full justify-center">Get Started</Button>
+                  <Button className="w-full justify-center bg-primary-600 hover:bg-primary-700">Get Started</Button>
                 </Link>
               </div>
             </div>

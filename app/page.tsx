@@ -1,56 +1,83 @@
 import Link from 'next/link'
-import { ArrowRight, Upload, Sparkles, Download, Check, Star } from 'lucide-react'
+import { ArrowRight, Upload, Sparkles, Download, Check, Star, Zap, Shield, Target, TrendingUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { LandingHeader } from '@/components/landing-header'
 import { Footer } from '@/components/footer'
 
+const stats = [
+  { value: '3x', label: 'More Interviews', description: 'on average' },
+  { value: '85%', label: 'ATS Pass Rate', description: 'industry leading' },
+  { value: '10k+', label: 'Resumes Optimized', description: 'and counting' },
+  { value: '4.9', label: 'User Rating', description: 'out of 5 stars' },
+]
+
 const features = [
   {
     icon: Upload,
     title: 'Upload Your Resume',
-    description: 'Drop your existing resume or paste the text. We support all major formats.',
-    color: 'from-blue-400 to-blue-500',
+    description: 'Drop your existing resume or paste the text. We support PDF, DOCX, and plain text formats.',
   },
   {
     icon: Sparkles,
     title: 'AI Analysis & Optimization',
-    description: 'Our AI analyzes your resume against the job description and optimizes it for maximum impact.',
-    color: 'from-primary-500 to-primary-700',
+    description: 'Our AI analyzes your resume against the job description and optimizes keywords, formatting, and tone.',
   },
   {
     icon: Download,
     title: 'Download & Apply',
-    description: 'Get your optimized resume and tailored cover letter ready to submit.',
-    color: 'from-accent-500 to-accent-600',
+    description: 'Get your ATS-optimized resume and tailored cover letter ready to submit in minutes.',
+  },
+]
+
+const benefits = [
+  {
+    icon: Target,
+    title: 'Job-Specific Tailoring',
+    description: 'Every resume is customized to match the exact requirements of your target position.',
+  },
+  {
+    icon: Shield,
+    title: 'ATS-Friendly Format',
+    description: 'Guaranteed to pass through Applicant Tracking Systems that filter out 75% of applications.',
+  },
+  {
+    icon: Zap,
+    title: 'Instant Results',
+    description: 'Get your optimized resume in under 2 minutes. No waiting, no manual reviews.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Achievement Highlighting',
+    description: 'AI identifies and emphasizes your most impactful accomplishments and metrics.',
   },
 ]
 
 const pricingPlans = [
   {
-    name: 'Basic',
+    name: 'Starter',
     price: '$0',
-    period: 'free',
-    description: 'Quick fixes for a polished resume.',
-    features: ['Grammar & spelling fixes', 'Formatting consistency', 'Basic proofreading', 'Single document'],
-    cta: 'Get Started',
+    period: 'free forever',
+    description: 'Perfect for quick polish and basic optimization.',
+    features: ['Grammar & spelling fixes', 'Basic formatting', 'Single resume', 'Standard support'],
+    cta: 'Start Free',
     highlighted: false,
   },
   {
-    name: 'Pro',
-    price: '$15',
-    period: '/mo',
-    description: 'ATS-optimized resumes that get past the bots.',
-    features: ['Everything in Basic', 'ATS keyword optimization', 'Job description matching', 'Unlimited documents', 'Priority support'],
+    name: 'Professional',
+    price: '$19',
+    period: '/month',
+    description: 'For serious job seekers who want to stand out.',
+    features: ['Everything in Starter', 'Full ATS optimization', 'Unlimited resumes', 'Cover letter generation', 'Job description matching', 'Priority support'],
     cta: 'Start Free Trial',
     highlighted: true,
   },
   {
-    name: 'Enterprise',
-    price: '$35',
-    period: '/mo',
+    name: 'Career Pro',
+    price: '$39',
+    period: '/month',
     description: 'Complete career transformation suite.',
-    features: ['Everything in Pro', 'Full resume rewrite', 'Cover letter generation', 'Company culture alignment', 'Achievement optimization', 'API access'],
+    features: ['Everything in Professional', 'Full resume rewrite', 'LinkedIn optimization', 'Interview prep tips', 'Career coaching session', 'API access'],
     cta: 'Contact Sales',
     highlighted: false,
   },
@@ -59,86 +86,119 @@ const pricingPlans = [
 const testimonials = [
   {
     name: 'Sarah Chen',
-    role: 'Product Manager at Stripe',
-    content: "I was applying to 20+ jobs with no responses. After using ForgeCareerAI, I got 3 interviews in the first week. The keyword optimization is a game changer.",
+    role: 'Product Manager',
+    company: 'Stripe',
+    content: "I was applying to 20+ jobs with no responses. After using ForgeCareerAI, I got 3 interviews in the first week. The keyword optimization is incredible.",
     rating: 5,
+    image: 'SC',
   },
   {
     name: 'James Rodriguez',
-    role: 'Software Engineer at Google',
-    content: "The full rewrite feature completely transformed my resume. It highlighted achievements I didn't even think to include. Landed my dream job within a month.",
+    role: 'Software Engineer',
+    company: 'Google',
+    content: "The AI completely transformed my resume. It highlighted achievements I didn't think to include. Landed my dream job within a month.",
     rating: 5,
+    image: 'JR',
   },
   {
     name: 'Emily Park',
-    role: 'Marketing Director at HubSpot',
-    content: 'As someone who reviews hundreds of resumes, I can instantly tell the difference. ForgeCareerAI produces results that actually stand out. Highly recommend.',
+    role: 'Marketing Director',
+    company: 'HubSpot',
+    content: "As someone who reviews hundreds of resumes, I can instantly tell the difference. ForgeCareerAI produces results that actually stand out.",
     rating: 5,
+    image: 'EP',
   },
 ]
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-background">
       <LandingHeader />
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero opacity-5" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-400/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-400/10 rounded-full blur-3xl" />
+      {/* Hero Section - Dark with gradient */}
+      <section className="relative pt-32 pb-24 px-4 bg-gradient-dark overflow-hidden">
+        {/* Background effects */}
+        <div className="absolute inset-0 bg-gradient-radial" />
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary-600/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-500/10 rounded-full blur-[100px]" />
         
-        <div className="relative max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-50 border border-primary-200 rounded-full text-xs font-medium text-primary-700 mb-6">
-            <Sparkles className="w-3.5 h-3.5" />
+        <div className="relative max-w-5xl mx-auto text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-zinc-300 mb-8 animate-fade-in">
+            <Sparkles className="w-4 h-4 text-accent-400" />
             AI-Powered Resume Optimization
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-text-primary leading-tight mb-6 text-balance">
-            Land More Interviews with{' '}
-            <span className="bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent">
-              AI-Optimized Resumes
-            </span>
+          
+          {/* Headline */}
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 animate-fade-in-up tracking-tight">
+            Land more interviews with{' '}
+            <span className="text-gradient">AI-optimized</span>{' '}
+            resumes
           </h1>
-          <p className="text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
-            Stop sending generic resumes. Our AI tailors every application to the job description — 
-            optimizing keywords, formatting, and tone so you stand out to both ATS systems and hiring managers.
+          
+          {/* Subheadline */}
+          <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            Stop sending generic resumes. Our AI tailors every application to the job description, 
+            optimizing for both ATS systems and hiring managers.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <Link href="/sign-up">
-              <Button size="lg" className="text-base">
+              <Button size="lg" className="text-base px-8 h-12 bg-primary-600 hover:bg-primary-700 text-white">
                 Start Optimizing Free
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
-            <a href="#features">
-              <Button variant="outline" size="lg" className="text-base">
+            <a href="#how-it-works">
+              <Button variant="outline" size="lg" className="text-base px-8 h-12 border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white">
                 See How It Works
               </Button>
             </a>
           </div>
-          <div className="flex items-center justify-center gap-6 mt-10 text-sm text-text-muted">
-            <span className="flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-green-500" /> No credit card
+          
+          {/* Trust indicators */}
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <span className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-green-500" /> No credit card required
             </span>
-            <span className="flex items-center gap-1.5">
-              <Check className="w-4 h-4 text-green-500" /> Free tier included
+            <span className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-green-500" /> Free tier available
             </span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-2">
               <Check className="w-4 h-4 text-green-500" /> Cancel anytime
             </span>
+          </div>
+        </div>
+
+        {/* Stats bar */}
+        <div className="relative max-w-6xl mx-auto mt-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-800">
+            {stats.map((stat, i) => (
+              <div 
+                key={stat.label} 
+                className="bg-zinc-900/80 p-6 text-center animate-fade-in-up"
+                style={{ animationDelay: `${0.4 + i * 0.1}s` }}
+              >
+                <p className="text-3xl sm:text-4xl font-bold text-white mb-1">{stat.value}</p>
+                <p className="text-sm font-medium text-zinc-300">{stat.label}</p>
+                <p className="text-xs text-zinc-500">{stat.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section id="features" className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section id="how-it-works" className="py-24 px-4 bg-surface">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
+            <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-3">How It Works</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-4">
-              How It Works
+              Three steps to your perfect resume
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Three simple steps to a resume that gets results.
+              Our AI-powered platform makes resume optimization simple and effective.
             </p>
           </div>
 
@@ -148,11 +208,13 @@ export default function LandingPage() {
               return (
                 <div 
                   key={feature.title} 
-                  className="text-center animate-fade-in-up" 
-                  style={{ animationDelay: `${i * 0.15}s` }}
+                  className="relative text-center p-8 rounded-2xl bg-white border border-border hover:shadow-lg transition-all duration-300 group"
                 >
-                  <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg`}>
-                    <Icon className="w-8 h-8 text-white" />
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-primary-600 text-white text-sm font-bold flex items-center justify-center">
+                    {i + 1}
+                  </div>
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                    <Icon className="w-8 h-8 text-primary-600" />
                   </div>
                   <h3 className="text-xl font-semibold text-text-primary mb-3">{feature.title}</h3>
                   <p className="text-text-secondary leading-relaxed">{feature.description}</p>
@@ -163,53 +225,90 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing */}
-      <section id="pricing" className="py-20 px-4 bg-surface">
-        <div className="max-w-7xl mx-auto">
+      {/* Benefits Grid */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
+            <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-3">Why ForgeCareerAI</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-4">
-              Simple, Transparent Pricing
+              Built for modern job seekers
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Choose the plan that fits your job search journey.
+              Everything you need to stand out in today&apos;s competitive job market.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {benefits.map((benefit) => {
+              const Icon = benefit.icon
+              return (
+                <div 
+                  key={benefit.title} 
+                  className="flex gap-5 p-6 rounded-xl bg-surface hover:bg-surface-alt transition-colors border border-transparent hover:border-border"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center">
+                    <Icon className="w-6 h-6 text-primary-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-text-primary mb-2">{benefit.title}</h3>
+                    <p className="text-text-secondary">{benefit.description}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="py-24 px-4 bg-surface">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-3">Pricing</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-4">
+              Simple, transparent pricing
+            </h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+              Choose the plan that fits your job search. Upgrade or cancel anytime.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {pricingPlans.map((plan, i) => (
+            {pricingPlans.map((plan) => (
               <Card
                 key={plan.name}
-                className={`relative animate-fade-in-up transition-all duration-200 hover:shadow-lg ${
-                  plan.highlighted ? 'ring-2 ring-primary-500 shadow-xl scale-105' : ''
+                className={`relative transition-all duration-300 hover:shadow-xl ${
+                  plan.highlighted 
+                    ? 'ring-2 ring-primary-500 shadow-lg scale-[1.02]' 
+                    : 'hover:scale-[1.01]'
                 }`}
-                style={{ animationDelay: `${i * 0.1}s` }}
               >
                 {plan.highlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-card text-white text-xs font-semibold px-4 py-1 rounded-full">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary-600 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
                     Most Popular
-                  </span>
+                  </div>
                 )}
-                <CardContent className="pt-6">
+                <CardContent className="pt-8 pb-8">
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-text-primary mb-1">{plan.name}</h3>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-text-primary">{plan.price}</span>
+                    <h3 className="text-lg font-semibold text-text-primary mb-2">{plan.name}</h3>
+                    <div className="flex items-baseline gap-1 mb-2">
+                      <span className="text-4xl font-bold text-text-primary">{plan.price}</span>
                       <span className="text-text-muted text-sm">{plan.period}</span>
                     </div>
-                    <p className="text-sm text-text-secondary mt-2">{plan.description}</p>
+                    <p className="text-sm text-text-secondary">{plan.description}</p>
                   </div>
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((f) => (
                       <li key={f} className="flex items-start gap-3 text-sm text-text-secondary">
-                        <Check className="w-4 h-4 text-primary-500 flex-shrink-0 mt-0.5" />
+                        <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
                         {f}
                       </li>
                     ))}
                   </ul>
-                  <Link href="/sign-up">
+                  <Link href="/sign-up" className="block">
                     <Button
                       variant={plan.highlighted ? 'default' : 'outline'}
-                      className="w-full"
+                      className={`w-full ${plan.highlighted ? 'bg-primary-600 hover:bg-primary-700' : ''}`}
                     >
                       {plan.cta}
                     </Button>
@@ -222,69 +321,68 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section id="testimonials" className="py-24 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
+            <p className="text-sm font-semibold text-primary-600 uppercase tracking-wider mb-3">Testimonials</p>
             <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-4">
-              Loved by Job Seekers
+              Trusted by thousands of job seekers
             </h2>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Hear from professionals who landed their dream roles.
+              See how professionals landed their dream roles with ForgeCareerAI.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
-              <div
-                key={t.name}
-                className="animate-fade-in-up"
-                style={{ animationDelay: `${i * 0.15}s` }}
-              >
-                <Card className="h-full transition-all duration-200 hover:shadow-lg">
-                  <CardContent className="pt-6 flex flex-col h-full">
-                    <div className="flex gap-1 mb-4">
-                      {[...Array(t.rating)].map((_, j) => (
-                        <Star key={j} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      ))}
+            {testimonials.map((t) => (
+              <Card key={t.name} className="h-full hover:shadow-lg transition-all duration-300">
+                <CardContent className="pt-6 flex flex-col h-full">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(t.rating)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-text-secondary leading-relaxed mb-6 flex-1">
+                    &ldquo;{t.content}&rdquo;
+                  </p>
+                  <div className="flex items-center gap-3 pt-4 border-t border-border">
+                    <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white text-sm font-semibold">
+                      {t.image}
                     </div>
-                    <p className="text-sm text-text-secondary leading-relaxed mb-6 flex-1">
-                      &ldquo;{t.content}&rdquo;
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-sm font-semibold">
-                        {t.name.split(' ').map(n => n[0]).join('')}
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-text-primary">{t.name}</p>
-                        <p className="text-xs text-text-muted">{t.role}</p>
-                      </div>
+                    <div>
+                      <p className="text-sm font-semibold text-text-primary">{t.name}</p>
+                      <p className="text-xs text-text-muted">{t.role} at {t.company}</p>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-hero">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-            Ready to Land More Interviews?
+      {/* Final CTA */}
+      <section className="py-24 px-4 bg-gradient-dark relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-radial opacity-50" />
+        <div className="relative max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Ready to land your dream job?
           </h2>
-          <p className="text-lg text-blue-100 mb-10 max-w-xl mx-auto">
+          <p className="text-lg text-zinc-400 mb-10 max-w-xl mx-auto">
             Join thousands of job seekers who are getting more interviews with AI-optimized resumes.
           </p>
           <Link href="/sign-up">
             <Button
               size="lg"
-              className="text-base shadow-xl bg-accent-500 hover:bg-accent-600 text-white"
+              className="text-base px-10 h-14 bg-accent-500 hover:bg-accent-600 text-white font-semibold shadow-lg shadow-accent-500/25"
             >
               Get Started Free
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>
+          <p className="mt-6 text-sm text-zinc-500">
+            No credit card required. Start optimizing in seconds.
+          </p>
         </div>
       </section>
 
