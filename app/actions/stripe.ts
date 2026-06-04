@@ -11,7 +11,7 @@ export async function startCheckoutSession(productId: string) {
   }
 
   const params: Stripe.Checkout.SessionCreateParams = {
-    ui_mode: 'embedded',
+    ui_mode: 'embedded' as Stripe.Checkout.SessionCreateParams.UiMode,
     redirect_on_completion: 'never',
     line_items: [
       {
