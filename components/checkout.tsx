@@ -20,7 +20,10 @@ interface CheckoutProps {
 
 export function Checkout({ productId, onClose }: CheckoutProps) {
   const fetchClientSecret = useCallback(
-    () => startCheckoutSession(productId),
+    async () => {
+      const secret = await startCheckoutSession(productId)
+      return secret ?? ''
+    },
     [productId]
   )
 
