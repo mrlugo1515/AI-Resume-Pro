@@ -1,5 +1,4 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { get } from '@vercel/blob'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
@@ -22,23 +21,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get the file from blob storage
-    const result = await get(pathname, { access: 'private' })
+    // Fetch the file directly from the blob URL
+    const blobUrl = `${process.env.BLOB_URL || ''}/${pathname}`
+    const response = await fetch(blobUrl)
     
-    if (!result) {
+    if (!response.ok) {
       return NextResponse.json({ error: 'File not found' }, { status: 404 })
     }
 
     // Read the file content
-    const arrayBuffer = await result.blob.arrayBuffer()
+    const arrayBuffer = await response.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
     
     let extractedText = ''
 
     if (fileType === 'application/pdf') {
-      // Parse PDF
-      const pdfParse = (await import('pdf-parse')).default
-      const pdfData = await pdfParse(buffer)
+      // Parse PDF using dynamic import
+      const pdfParse = await import('pdf-parse')
+      const pdfData = await pdfParse.default(buffer)
       extractedText = pdfData.text
     } else if (
       fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
