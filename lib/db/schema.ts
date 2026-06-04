@@ -80,6 +80,7 @@ export const job = pgTable('job', {
   location: text('location').notNull(),
   locationType: text('locationType').notNull().default('onsite'),
   jobType: text('jobType').notNull().default('full-time'),
+  category: text('category').default('other'),
   salaryMin: integer('salaryMin'),
   salaryMax: integer('salaryMax'),
   description: text('description').notNull(),
@@ -105,4 +106,11 @@ export const jobApplication = pgTable('job_application', {
   status: text('status').notNull().default('pending'),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
   updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+})
+
+export const savedJob = pgTable('saved_job', {
+  id: serial('id').primaryKey(),
+  jobId: integer('jobId').notNull(),
+  userId: text('userId').notNull(),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
 })

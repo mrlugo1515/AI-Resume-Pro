@@ -78,12 +78,18 @@ export function Footer() {
             &copy; {new Date().getFullYear()} ForgeCareerAI. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+            <Link href="/privacy" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
               Privacy Policy
-            </a>
-            <a href="#" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+            </Link>
+            <Link href="/terms" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
               Terms of Service
-            </a>
+            </Link>
+            <Link href="/blog" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+              Blog
+            </Link>
+            <Link href="/jobs" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors">
+              Jobs
+            </Link>
           </div>
         </div>
       </div>

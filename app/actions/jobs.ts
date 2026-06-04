@@ -2,7 +2,7 @@
 
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { job, jobApplication } from '@/lib/db/schema'
+import { job, jobApplication, savedJob } from '@/lib/db/schema'
 import { and, desc, eq, ilike, or, sql, gte, lte } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { revalidatePath } from 'next/cache'
@@ -208,4 +208,87 @@ export async function hasApplied(jobId: number) {
     .where(and(eq(jobApplication.jobId, jobId), eq(jobApplication.userId, userId)))
   
   return existing.length > 0
+}
+
+// Saved Jobs functionality
+export async function saveJob(jobId: number) {
+  const userId = await getUserId()
+  
+  // Check if already saved
+  const existing = await db
+    .select()
+    .from(savedJob)
+    .where(and(eq(savedJob.jobId, jobId), eq(savedJob.userId, userId)))
+  
+  if (existing.length > 0) {
+    return { alreadySaved: true }
+  }
+  
+  await db.insert(savedJob).values({ jobId, userId })
+  revalidatePath('/jobs')
+  revalidatePath('/dashboard/saved-jobs')
+  return { saved: true }
+}
+
+export async function unsaveJob(jobId: number) {
+  const userId = await getUserId()
+  
+  await db.delete(savedJob).where(
+    and(eq(savedJob.jobId, jobId), eq(savedJob.userId, userId))
+  )
+  
+  revalidatePath('/jobs')
+  revalidatePath('/dashboard/saved-jobs')
+  return { unsaved: true }
+}
+
+export async function getSavedJobs() {
+  const userId = await getUserId()
+  
+  return db
+    .select({
+      savedJob: savedJob,
+      job: job,
+    })
+    .from(savedJob)
+    .innerJoin(job, eq(savedJob.jobId, job.id))
+    .where(eq(savedJob.userId, userId))
+    .orderBy(desc(savedJob.createdAt))
+}
+
+export async function isJobSaved(jobId: number) {
+  const userId = await getOptionalUserId()
+  if (!userId) return false
+  
+  const existing = await db
+    .select()
+    .from(savedJob)
+    .where(and(eq(savedJob.jobId, jobId), eq(savedJob.userId, userId)))
+  
+  return existing.length > 0
+}
+
+export async function getJobStats() {
+  const userId = await getUserId()
+  
+  const applications = await db
+    .select()
+    .from(jobApplication)
+    .where(eq(jobApplication.userId, userId))
+  
+  const saved = await db
+    .select()
+    .from(savedJob)
+    .where(eq(savedJob.userId, userId))
+  
+  const postedJobs = await db
+    .select()
+    .from(job)
+    .where(eq(job.userId, userId))
+  
+  return {
+    applicationsCount: applications.length,
+    savedCount: saved.length,
+    postedCount: postedJobs.length,
+  }
 }

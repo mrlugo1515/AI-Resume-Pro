@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { headers } from 'next/headers'
-import { FileText, Plus, Clock, Download, TrendingUp, Target, Zap, Eye, ArrowUpRight, Calendar, BarChart3, Briefcase, Search } from 'lucide-react'
+import { FileText, Plus, Clock, Download, TrendingUp, Target, Zap, Eye, ArrowUpRight, Calendar, BarChart3, Briefcase, Search, Bookmark, FileCheck } from 'lucide-react'
 import { auth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -121,7 +121,7 @@ export default async function DashboardPage() {
                 <Zap className="w-4 h-4 text-accent-500" />
                 Quick Actions
               </h3>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 <Link href="/dashboard/new" className="group">
                   <div className="p-4 rounded-xl border border-border bg-surface hover:bg-primary-50 hover:border-primary-200 transition-all">
                     <div className="flex items-center gap-3">
@@ -175,6 +175,34 @@ export default async function DashboardPage() {
                         <p className="text-xs text-text-muted">Find qualified candidates</p>
                       </div>
                       <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-green-600 transition-colors" />
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/saved-jobs" className="group">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-amber-50 hover:border-amber-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center group-hover:bg-amber-200 transition-colors">
+                        <Bookmark className="w-5 h-5 text-amber-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-text-primary text-sm">Saved Jobs</p>
+                        <p className="text-xs text-text-muted">Jobs you bookmarked</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-amber-600 transition-colors" />
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/applications" className="group">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-purple-50 hover:border-purple-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                        <FileCheck className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-text-primary text-sm">My Applications</p>
+                        <p className="text-xs text-text-muted">Track your progress</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-purple-600 transition-colors" />
                     </div>
                   </div>
                 </Link>
