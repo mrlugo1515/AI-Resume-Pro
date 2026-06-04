@@ -37,8 +37,9 @@ export async function POST(request: NextRequest) {
 
     if (fileType === 'application/pdf') {
       // Parse PDF using dynamic import
-      const pdfParse = await import('pdf-parse')
-      const pdfData = await pdfParse.default(buffer)
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const pdfParse = require('pdf-parse')
+      const pdfData = await pdfParse(buffer)
       extractedText = pdfData.text
     } else if (
       fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
