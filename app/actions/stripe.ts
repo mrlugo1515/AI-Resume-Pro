@@ -1,5 +1,6 @@
 'use server'
 
+import Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { ALL_PRODUCTS } from '@/lib/products'
 
@@ -9,8 +10,8 @@ export async function startCheckoutSession(productId: string) {
     throw new Error(`Product with id "${productId}" not found`)
   }
 
-  const session = await stripe.checkout.sessions.create({
-    ui_mode: 'embedded' as const,
+  const params: Stripe.Checkout.SessionCreateParams = {
+    ui_mode: 'embedded',
     redirect_on_completion: 'never',
     line_items: [
       {
@@ -29,7 +30,9 @@ export async function startCheckoutSession(productId: string) {
     metadata: {
       productId: product.id,
     },
-  })
+  }
+
+  const session = await stripe.checkout.sessions.create(params)
 
   return session.client_secret
 }
