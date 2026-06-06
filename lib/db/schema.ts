@@ -57,9 +57,7 @@ export const verification = pgTable('verification', {
 
 export const resume = pgTable('resume', {
   id: serial('id').primaryKey(),
-  userId: text('userId')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
+  userId: text('userId').notNull(),
   title: text('title').notNull(),
   originalContent: text('originalContent').notNull(),
   optimizedContent: text('optimizedContent'),
@@ -67,7 +65,54 @@ export const resume = pgTable('resume', {
   coverLetter: text('coverLetter'),
   tier: text('tier').notNull().default('basic'),
   atsScore: integer('atsScore'),
+  improvements: text('improvements'),
+  keywordsMatched: text('keywordsMatched'),
   status: text('status').notNull().default('pending'),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
   updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+})
+
+// --- Job Board tables ------------------------------------------------------
+
+export const job = pgTable('job', {
+  id: serial('id').primaryKey(),
+  userId: text('userId').notNull(),
+  title: text('title').notNull(),
+  company: text('company').notNull(),
+  location: text('location').notNull(),
+  locationType: text('locationType').notNull().default('onsite'),
+  jobType: text('jobType').notNull().default('full-time'),
+  category: text('category').default('other'),
+  salaryMin: integer('salaryMin'),
+  salaryMax: integer('salaryMax'),
+  description: text('description').notNull(),
+  requirements: text('requirements'),
+  benefits: text('benefits'),
+  applicationUrl: text('applicationUrl'),
+  applicationEmail: text('applicationEmail'),
+  status: text('status').notNull().default('active'),
+  featured: boolean('featured').notNull().default(false),
+  views: integer('views').notNull().default(0),
+  applications: integer('applications').notNull().default(0),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+  expiresAt: timestamp('expiresAt'),
+})
+
+export const jobApplication = pgTable('job_application', {
+  id: serial('id').primaryKey(),
+  jobId: integer('jobId').notNull(),
+  userId: text('userId').notNull(),
+  resumeId: integer('resumeId'),
+  coverLetter: text('coverLetter'),
+  status: text('status').notNull().default('pending'),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+})
+
+export const savedJob = pgTable('saved_job', {
+  id: serial('id').primaryKey(),
+  jobId: integer('jobId').notNull(),
+  userId: text('userId').notNull(),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
