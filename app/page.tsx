@@ -78,9 +78,73 @@ const testimonials = [
   },
 ]
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      name: 'ForgeCareerAI',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      description:
+        'AI-powered resume optimization that tailors your resume to any job description, beats ATS systems, and helps you land more interviews.',
+      offers: {
+        '@type': 'Offer',
+        price: '9',
+        priceCurrency: 'USD',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        ratingCount: '1200',
+      },
+      url: 'https://forgecareerai.com',
+    },
+    {
+      '@type': 'Organization',
+      name: 'ForgeCareerAI',
+      url: 'https://forgecareerai.com',
+      logo: 'https://forgecareerai.com/icon.png',
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'How does ForgeCareerAI optimize my resume?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Our AI analyzes your resume against the target job description, adds relevant keywords, strengthens achievement statements, and formats everything to pass Applicant Tracking Systems (ATS).',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What file formats can I upload?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'You can upload PDF, DOCX, DOC, and TXT files, or simply paste your resume text directly.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is ForgeCareerAI free to use?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes, you can start optimizing for free with no credit card required. Paid plans unlock advanced ATS optimization and cover letter generation.',
+          },
+        },
+      ],
+    },
+  ],
+}
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <LandingHeader />
 
       {/* Hero Section - Dark with gradient */}
