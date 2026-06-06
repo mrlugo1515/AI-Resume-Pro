@@ -532,7 +532,7 @@ export function MatchScanner() {
       {/* Feature highlights */}
       <div className="grid sm:grid-cols-4 gap-4 pt-2">
         {[
-          { icon: Target, label: 'Match Score', desc: 'See how you stack up', bg: 'bg-blue-100', color: 'text-blue-600' },
+          { icon: Target, label: 'Match Score', desc: 'See how you stack up', bg: 'bg-primary-100', color: 'text-primary-600' },
           { icon: Tag, label: 'Missing Skills', desc: 'Close the gaps', bg: 'bg-amber-100', color: 'text-amber-600' },
           { icon: Lightbulb, label: 'Improvements', desc: 'Actionable tips', bg: 'bg-primary-100', color: 'text-primary-600' },
           { icon: Mail, label: 'Cover Letter', desc: 'Tailored & ready', bg: 'bg-green-100', color: 'text-green-600' },

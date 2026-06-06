@@ -172,8 +172,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
-                <FileText className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-primary-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">Characters</p>
