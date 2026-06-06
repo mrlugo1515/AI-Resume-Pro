@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Sparkles, User, LogOut, Briefcase } from 'lucide-react'
+import { Sparkles, User, LogOut, Briefcase, Target } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -39,6 +39,10 @@ export function DashboardHeader() {
           <div className="hidden sm:flex items-center gap-6">
             <Link href="/dashboard" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
               Dashboard
+            </Link>
+            <Link href="/dashboard/match-scan" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1">
+              <Target className="w-4 h-4" />
+              Match Scanner
             </Link>
             <Link href="/jobs" className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1">
               <Briefcase className="w-4 h-4" />

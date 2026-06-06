@@ -150,6 +150,20 @@ export default async function DashboardPage() {
                     </div>
                   </div>
                 </Link>
+                <Link href="/dashboard/match-scan" className="group">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-blue-50 hover:border-blue-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                        <Target className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-text-primary text-sm">Job Match Scanner</p>
+                        <p className="text-xs text-text-muted">Score your fit & tailor instantly</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-blue-600 transition-colors" />
+                    </div>
+                  </div>
+                </Link>
                 <Link href="/jobs" className="group">
                   <div className="p-4 rounded-xl border border-border bg-surface hover:bg-blue-50 hover:border-blue-200 transition-all">
                     <div className="flex items-center gap-3">
