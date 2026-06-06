@@ -184,6 +184,15 @@ export function ResumeWizard() {
   }
 
   if (step === 'processing') {
+    const statusMessage =
+      progress < 30
+        ? 'Analyzing your resume structure...'
+        : progress < 60
+          ? 'Matching keywords and strengthening achievements...'
+          : progress < 90
+            ? 'Optimizing for ATS compatibility...'
+            : 'Finalizing your optimized resume...'
+
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <Card className="w-full max-w-md">
@@ -195,7 +204,7 @@ export function ResumeWizard() {
               Optimizing Your Resume
             </h2>
             <p className="text-text-secondary mb-6">
-              Our AI is analyzing and enhancing your resume for maximum impact...
+              {statusMessage}
             </p>
             <Progress value={progress} className="h-2 mb-4" />
             <p className="text-sm text-text-muted">{progress}% complete</p>

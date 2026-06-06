@@ -163,22 +163,22 @@ export default function LandingPage() {
           
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 animate-fade-in-up tracking-tight">
-            Land more interviews with{' '}
-            <span className="text-gradient">AI-optimized</span>{' '}
-            resumes
+            Get{' '}
+            <span className="text-gradient">3x more interviews</span>{' '}
+            with AI-optimized resumes
           </h1>
           
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            Stop sending generic resumes. Our AI tailors every application to the job description, 
-            optimizing for both ATS systems and hiring managers.
+            Upload your resume, paste any job description, and get a tailored, ATS-ready
+            resume in under 2 minutes — built to get past the filters and impress hiring managers.
           </p>
           
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <Link href="/sign-up">
               <Button size="lg" className="text-base px-8 h-12 bg-primary-600 hover:bg-primary-700 text-white">
-                Start Optimizing Free
+                Optimize My Resume Free
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
@@ -187,6 +187,18 @@ export default function LandingPage() {
                 See How It Works
               </Button>
             </a>
+          </div>
+
+          {/* Social proof rating */}
+          <div className="flex items-center justify-center gap-2 mb-8 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <span className="text-sm text-zinc-400">
+              Rated 4.9/5 by 1,200+ job seekers
+            </span>
           </div>
           
           {/* Trust indicators */}

@@ -65,6 +65,8 @@ export const resume = pgTable('resume', {
   coverLetter: text('coverLetter'),
   tier: text('tier').notNull().default('basic'),
   atsScore: integer('atsScore'),
+  improvements: text('improvements'),
+  keywordsMatched: text('keywordsMatched'),
   status: text('status').notNull().default('pending'),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
   updatedAt: timestamp('updatedAt').notNull().defaultNow(),
