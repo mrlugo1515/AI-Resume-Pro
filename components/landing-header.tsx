@@ -45,14 +45,28 @@ export function LandingHeader() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#how-it-works" className={`text-sm font-medium transition-colors ${
+            <a href="/#how-it-works" className={`text-sm font-medium transition-colors ${
               scrolled 
                 ? 'text-text-secondary hover:text-text-primary' 
                 : 'text-zinc-300 hover:text-white'
             }`}>
               How It Works
             </a>
-            <a href="#pricing" className={`text-sm font-medium transition-colors ${
+            <Link href="/ai-resume-builder" className={`text-sm font-medium transition-colors ${
+              scrolled 
+                ? 'text-text-secondary hover:text-text-primary' 
+                : 'text-zinc-300 hover:text-white'
+            }`}>
+              Resume Builder
+            </Link>
+            <Link href="/ats-resume-checker" className={`text-sm font-medium transition-colors ${
+              scrolled 
+                ? 'text-text-secondary hover:text-text-primary' 
+                : 'text-zinc-300 hover:text-white'
+            }`}>
+              ATS Checker
+            </Link>
+            <a href="/#pricing" className={`text-sm font-medium transition-colors ${
               scrolled 
                 ? 'text-text-secondary hover:text-text-primary' 
                 : 'text-zinc-300 hover:text-white'
@@ -66,13 +80,6 @@ export function LandingHeader() {
             }`}>
               Resources
             </Link>
-            <a href="#faq" className={`text-sm font-medium transition-colors ${
-              scrolled 
-                ? 'text-text-secondary hover:text-text-primary' 
-                : 'text-zinc-300 hover:text-white'
-            }`}>
-              FAQ
-            </a>
           </div>
 
           {/* Auth buttons */}
@@ -109,14 +116,42 @@ export function LandingHeader() {
           <div className="md:hidden py-4 border-t border-border bg-white rounded-b-xl shadow-lg">
             <div className="flex flex-col gap-4">
               <a
-                href="#how-it-works"
+                href="/#how-it-works"
                 className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 How It Works
               </a>
+              <Link
+                href="/ai-resume-builder"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Resume Builder
+              </Link>
+              <Link
+                href="/ats-resume-checker"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                ATS Checker
+              </Link>
+              <Link
+                href="/resume-scoring-tool"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Resume Scoring
+              </Link>
+              <Link
+                href="/interview-preparation-tool"
+                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Interview Prep
+              </Link>
               <a
-                href="#pricing"
+                href="/#pricing"
                 className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -129,13 +164,6 @@ export function LandingHeader() {
               >
                 Resources
               </Link>
-              <a
-                href="#faq"
-                className="text-sm text-text-secondary hover:text-text-primary transition-colors px-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                FAQ
-              </a>
               <div className="flex flex-col gap-2 pt-4 border-t border-border">
                 <Link href="/sign-in">
                   <Button variant="ghost" className="w-full justify-center">Log In</Button>

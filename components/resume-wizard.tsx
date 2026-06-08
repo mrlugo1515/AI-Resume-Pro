@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Progress } from '@/components/ui/progress'
+import { trackEvent } from '@/lib/analytics'
 
 type Step = 'upload' | 'job' | 'processing' | 'complete'
 
@@ -60,6 +61,7 @@ export function ResumeWizard() {
       const uploadData = await uploadRes.json()
       setUploadedFile(uploadData)
       setProgress(50)
+      trackEvent('resume_upload', { file_type: file.type, source: 'wizard' })
 
       // Auto-generate title from filename
       const title = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')

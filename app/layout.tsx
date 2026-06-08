@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SupportChat } from '@/components/support-chat'
+import { GoogleAnalytics } from '@/components/google-analytics'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -17,6 +18,9 @@ export const metadata: Metadata = {
   keywords: ['resume', 'AI', 'resume builder', 'ATS optimization', 'career', 'job search', 'resume optimization', 'ForgeCareerAI'],
   authors: [{ name: 'ForgeCareerAI' }],
   metadataBase: new URL('https://forgecareerai.com'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -59,6 +63,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         {children}
         <SupportChat />
+        <GoogleAnalytics />
         {process.env.NODE_ENV === 'production' && <Analytics />}
         {process.env.NODE_ENV === 'production' && <SpeedInsights />}
       </body>
