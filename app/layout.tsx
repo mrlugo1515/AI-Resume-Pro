@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SupportChat } from '@/components/support-chat'
 import { GoogleAnalytics } from '@/components/google-analytics'
+import { ExitIntentPopup } from '@/components/exit-intent-popup'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -59,10 +60,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-background">
       <body className="font-sans antialiased">
         {children}
         <SupportChat />
+        <ExitIntentPopup />
         <GoogleAnalytics />
         {process.env.NODE_ENV === 'production' && <Analytics />}
         {process.env.NODE_ENV === 'production' && <SpeedInsights />}

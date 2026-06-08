@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react'
 import { Menu, X, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-export function LandingHeader() {
+export function LandingHeader({ solid = false }: { solid?: boolean }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [hasScrolled, setHasScrolled] = useState(false)
 
   useEffect(() => {
     let ticking = false
@@ -15,13 +15,16 @@ export function LandingHeader() {
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 50)
+        setHasScrolled(window.scrollY > 50)
         ticking = false
       })
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // On light-background inner pages we force the solid (readable) style.
+  const scrolled = solid || hasScrolled
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${

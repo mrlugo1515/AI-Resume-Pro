@@ -109,7 +109,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <LandingHeader />
+      <LandingHeader solid />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
