@@ -151,31 +151,31 @@ export default function LandingPage() {
       <section className="relative pt-32 pb-24 px-4 bg-gradient-dark overflow-hidden">
         {/* Background effects */}
         <div className="absolute inset-0 bg-gradient-radial" />
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary-600/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-primary-600/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent-500/10 rounded-full blur-3xl" />
         
         <div className="relative max-w-5xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-zinc-300 mb-8 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-zinc-300 mb-8">
             <Sparkles className="w-4 h-4 text-accent-400" />
             AI-Powered Resume Optimization
           </div>
           
-          {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 animate-fade-in-up tracking-tight">
+          {/* Headline - LCP element, renders immediately with no entrance animation */}
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
             Get{' '}
             <span className="text-gradient">3x more interviews</span>{' '}
             with AI-optimized resumes
           </h1>
           
           {/* Subheadline */}
-          <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">
             Upload your resume, paste any job description, and get a tailored, ATS-ready
             resume in under 2 minutes — built to get past the filters and impress hiring managers.
           </p>
           
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <Link href="/sign-up">
               <Button size="lg" className="text-base px-8 h-12 bg-primary-600 hover:bg-primary-700 text-white">
                 Optimize My Resume Free
@@ -190,7 +190,7 @@ export default function LandingPage() {
           </div>
 
           {/* Social proof rating */}
-          <div className="flex items-center justify-center gap-2 mb-8 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+          <div className="flex items-center justify-center gap-2 mb-8">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
@@ -202,7 +202,7 @@ export default function LandingPage() {
           </div>
           
           {/* Trust indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
             <span className="flex items-center gap-2">
               <Check className="w-4 h-4 text-green-500" /> No credit card required
             </span>
