@@ -182,11 +182,11 @@ export default function LandingPage() {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
-            <a href="#how-it-works">
+            <Link href="/free-ats-check">
               <Button variant="outline" size="lg" className="text-base px-8 h-12 border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white">
-                See How It Works
+                Check My Resume Free — No Signup
               </Button>
-            </a>
+            </Link>
           </div>
 
           {/* Social proof rating */}

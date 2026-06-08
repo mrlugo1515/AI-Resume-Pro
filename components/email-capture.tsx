@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Check } from 'lucide-react'
+import { Check, Loader2 } from 'lucide-react'
 import { trackEvent } from '@/lib/analytics'
+import { subscribeEmail } from '@/app/actions/newsletter'
 
 export function EmailCapture({
   source = 'unknown',
@@ -18,9 +19,10 @@ export function EmailCapture({
 }) {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     if (!valid) {
@@ -28,6 +30,13 @@ export function EmailCapture({
       return
     }
     setError('')
+    setLoading(true)
+    const result = await subscribeEmail(email, source)
+    setLoading(false)
+    if (!result.success) {
+      setError(result.error || 'Something went wrong. Please try again.')
+      return
+    }
     setSubmitted(true)
     trackEvent('newsletter_signup', { source })
   }
@@ -62,8 +71,8 @@ export function EmailCapture({
                 : 'bg-white border border-border text-text-primary placeholder-text-muted'
             }`}
           />
-          <Button type="submit" className="bg-accent-500 hover:bg-accent-600 text-white px-6">
-            Subscribe
+          <Button type="submit" disabled={loading} className="bg-accent-500 hover:bg-accent-600 text-white px-6">
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Subscribe'}
           </Button>
         </form>
       )}

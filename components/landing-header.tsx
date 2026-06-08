@@ -66,6 +66,13 @@ export function LandingHeader() {
             }`}>
               ATS Checker
             </Link>
+            <Link href="/free-ats-check" className={`text-sm font-medium transition-colors ${
+              scrolled 
+                ? 'text-primary-600 hover:text-primary-700' 
+                : 'text-accent-400 hover:text-accent-300'
+            }`}>
+              Free ATS Check
+            </Link>
             <a href="/#pricing" className={`text-sm font-medium transition-colors ${
               scrolled 
                 ? 'text-text-secondary hover:text-text-primary' 
