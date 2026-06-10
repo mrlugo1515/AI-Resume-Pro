@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { getAllPosts } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL 
@@ -6,6 +7,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     : process.env.VERCEL_URL 
       ? `https://${process.env.VERCEL_URL}`
       : 'https://forgecareerai.com'
+
+  const blogPosts: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.published),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
 
   return [
     {
@@ -26,6 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    ...blogPosts,
     {
       url: `${baseUrl}/sign-in`,
       lastModified: new Date(),

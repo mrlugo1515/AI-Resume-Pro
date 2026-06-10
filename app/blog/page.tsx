@@ -1,75 +1,18 @@
 import Link from 'next/link'
-import { ArrowRight, Calendar, Clock, User, BookOpen, FileText, Lightbulb, TrendingUp } from 'lucide-react'
+import { ArrowRight, Calendar, Clock, BookOpen, FileText, Lightbulb, TrendingUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { LandingHeader } from '@/components/landing-header'
 import { Footer } from '@/components/footer'
+import { getFeaturedPost, getNonFeaturedPosts } from '@/lib/blog-data'
 
 export const metadata = {
   title: 'Career Resources & Blog',
   description: 'Expert career advice, resume tips, and job search strategies to help you land your dream role.',
 }
 
-const featuredPost = {
-  title: 'The Ultimate Guide to ATS-Optimized Resumes in 2024',
-  excerpt: 'Learn how Applicant Tracking Systems work and discover the exact strategies top candidates use to get their resumes seen by hiring managers.',
-  category: 'Resume Tips',
-  readTime: '12 min read',
-  date: 'Jan 15, 2024',
-  author: 'Career Team',
-  slug: 'ultimate-guide-ats-resumes-2024',
-}
-
-const blogPosts = [
-  {
-    title: '10 Power Words That Make Your Resume Stand Out',
-    excerpt: 'Discover the action verbs and phrases that catch recruiters attention and showcase your achievements effectively.',
-    category: 'Resume Tips',
-    readTime: '5 min read',
-    date: 'Jan 12, 2024',
-    slug: 'power-words-resume',
-  },
-  {
-    title: 'How to Tailor Your Resume for Each Job Application',
-    excerpt: 'A step-by-step guide to customizing your resume for specific job descriptions without starting from scratch.',
-    category: 'Job Search',
-    readTime: '7 min read',
-    date: 'Jan 10, 2024',
-    slug: 'tailor-resume-job-application',
-  },
-  {
-    title: 'The Top Skills Employers Are Looking for in 2024',
-    excerpt: 'Research-backed insights into the most in-demand hard and soft skills across industries.',
-    category: 'Career Advice',
-    readTime: '6 min read',
-    date: 'Jan 8, 2024',
-    slug: 'top-skills-employers-2024',
-  },
-  {
-    title: 'Cover Letter vs No Cover Letter: What the Data Says',
-    excerpt: 'We analyzed thousands of applications to find out if cover letters really make a difference.',
-    category: 'Research',
-    readTime: '4 min read',
-    date: 'Jan 5, 2024',
-    slug: 'cover-letter-data-analysis',
-  },
-  {
-    title: 'How to Explain Employment Gaps on Your Resume',
-    excerpt: 'Practical strategies for addressing career breaks, layoffs, and other gaps in your work history.',
-    category: 'Resume Tips',
-    readTime: '6 min read',
-    date: 'Jan 3, 2024',
-    slug: 'explain-employment-gaps',
-  },
-  {
-    title: 'Remote Job Search: Resume Tips for 2024',
-    excerpt: 'How to highlight remote work skills and stand out in the competitive remote job market.',
-    category: 'Job Search',
-    readTime: '5 min read',
-    date: 'Jan 1, 2024',
-    slug: 'remote-job-search-tips',
-  },
-]
+const featuredPost = getFeaturedPost()
+const blogPosts = getNonFeaturedPosts()
 
 const resources = [
   {
@@ -153,9 +96,11 @@ export default function BlogPage() {
                     <Clock className="w-4 h-4" /> {featuredPost.readTime}
                   </span>
                 </div>
-                <Button className="w-fit bg-primary-600 hover:bg-primary-700">
-                  Read Article
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <Button asChild className="w-fit bg-primary-600 hover:bg-primary-700">
+                  <Link href={`/blog/${featuredPost.slug}`}>
+                    Read Article
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -186,32 +131,34 @@ export default function BlogPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post) => (
-              <Card key={post.slug} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
-                <CardContent className="p-0">
-                  <div className="h-40 bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center group-hover:from-primary-50 group-hover:to-primary-100 transition-colors">
-                    <FileText className="w-12 h-12 text-zinc-400 group-hover:text-primary-500 transition-colors" />
-                  </div>
-                  <div className="p-6">
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${categoryColors[post.category]}`}>
-                      {post.category}
-                    </span>
-                    <h3 className="font-semibold text-text-primary mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-text-secondary mb-4 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center gap-4 text-xs text-text-muted">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" /> {post.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {post.readTime}
-                      </span>
+              <Link key={post.slug} href={`/blog/${post.slug}`}>
+                <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden h-full">
+                  <CardContent className="p-0">
+                    <div className="h-40 bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center group-hover:from-primary-50 group-hover:to-primary-100 transition-colors">
+                      <FileText className="w-12 h-12 text-zinc-400 group-hover:text-primary-500 transition-colors" />
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                    <div className="p-6">
+                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${categoryColors[post.category]}`}>
+                        {post.category}
+                      </span>
+                      <h3 className="font-semibold text-text-primary mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-text-secondary mb-4 line-clamp-2">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center gap-4 text-xs text-text-muted">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" /> {post.date}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" /> {post.readTime}
+                        </span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
