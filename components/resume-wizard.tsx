@@ -43,11 +43,12 @@ export function ResumeWizard() {
     setProgress(10)
 
     try {
-      // Upload the file
+      // Upload + parse the file in a single request.
       const formData = new FormData()
       formData.append('file', file)
 
       setProgress(30)
+      setIsParsing(true)
       const uploadRes = await fetch('/api/upload-resume', {
         method: 'POST',
         body: formData,
@@ -59,38 +60,33 @@ export function ResumeWizard() {
       }
 
       const uploadData = await uploadRes.json()
-      setUploadedFile(uploadData)
-      setProgress(50)
-      trackEvent('resume_upload', { file_type: file.type, source: 'wizard' })
+      setProgress(80)
 
       // Auto-generate title from filename
       const title = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
       setResumeTitle(title)
 
-      // Parse the file to extract text
-      setIsParsing(true)
-      setProgress(70)
-
-      const parseRes = await fetch('/api/parse-resume', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          pathname: uploadData.pathname,
-          fileType: uploadData.type,
-        }),
-      })
-
-      if (!parseRes.ok) {
-        const data = await parseRes.json()
-        throw new Error(data.error || 'Failed to parse resume')
+      // If parsing failed, surface a helpful message but keep the upload record.
+      if (uploadData.parseError || !uploadData.text) {
+        setUploadedFile(null)
+        setResumeContent('')
+        setError(
+          uploadData.parseError ||
+            'We could not read this file. Please try the "Paste Text" option instead.'
+        )
+        setProgress(0)
+        return
       }
 
-      const parseData = await parseRes.json()
-      setResumeContent(parseData.text)
+      // Success: store the file + extracted text.
+      setUploadedFile(uploadData)
+      setResumeContent(uploadData.text)
       setProgress(100)
+      trackEvent('resume_upload', { file_type: file.type, source: 'wizard' })
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
+      setProgress(0)
     } finally {
       setIsUploading(false)
       setIsParsing(false)
