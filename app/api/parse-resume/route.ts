@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
+import { get } from '@vercel/blob'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 
@@ -21,16 +22,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Fetch the file directly from the blob URL
-    const blobUrl = `${process.env.BLOB_URL || ''}/${pathname}`
-    const response = await fetch(blobUrl)
-    
-    if (!response.ok) {
+    // Fetch the private file from Blob using the authenticated get() API
+    const result = await get(pathname, { access: 'private' })
+
+    if (!result) {
       return NextResponse.json({ error: 'File not found' }, { status: 404 })
     }
 
     // Read the file content
-    const arrayBuffer = await response.arrayBuffer()
+    const arrayBuffer = await new Response(result.stream).arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
     
     let extractedText = ''
