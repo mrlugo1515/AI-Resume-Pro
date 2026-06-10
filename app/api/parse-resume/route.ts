@@ -36,11 +36,15 @@ export async function POST(request: NextRequest) {
     let extractedText = ''
 
     if (fileType === 'application/pdf') {
-      // Parse PDF using dynamic import
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const pdfParse = require('pdf-parse')
-      const pdfData = await pdfParse(buffer)
-      extractedText = pdfData.text
+      // Parse PDF using pdf-parse v2 PDFParse class API
+      const { PDFParse } = await import('pdf-parse')
+      const parser = new PDFParse({ data: buffer })
+      try {
+        const pdfData = await parser.getText()
+        extractedText = pdfData.text
+      } finally {
+        await parser.destroy()
+      }
     } else if (
       fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
       fileType === 'application/msword'
