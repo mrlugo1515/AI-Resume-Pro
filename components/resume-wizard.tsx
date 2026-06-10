@@ -37,7 +37,25 @@ export function ResumeWizard() {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
     if (!file) return
+    await processFile(file)
+  }, [])
 
+  // iOS Safari and some Android browsers send PDFs with an empty or generic
+  // MIME type, which react-dropzone rejects on the `accept` filter. We still
+  // try to process those by extension, since the server validates the file.
+  const onDropRejected = useCallback(async (rejections: any[]) => {
+    const file = rejections?.[0]?.file as File | undefined
+    if (!file) return
+    const name = file.name.toLowerCase()
+    const okExt = ['.pdf', '.docx', '.doc', '.txt'].some((ext) => name.endsWith(ext))
+    if (okExt && file.size <= 10 * 1024 * 1024) {
+      await processFile(file)
+    } else {
+      setError('Please upload a PDF, DOCX, DOC, or TXT file under 10MB.')
+    }
+  }, [])
+
+  const processFile = useCallback(async (file: File) => {
     setError(null)
     setIsUploading(true)
     setIsParsing(true)
@@ -100,6 +118,7 @@ export function ResumeWizard() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    onDropRejected,
     accept: {
       'application/pdf': ['.pdf'],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],

@@ -50,7 +50,24 @@ export function MatchScanner() {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
     if (!file) return
+    await processFile(file)
+  }, [])
 
+  // Mobile browsers often send PDFs with an empty/generic MIME type, which
+  // react-dropzone rejects. Fall back to extension-based acceptance.
+  const onDropRejected = useCallback(async (rejections: any[]) => {
+    const file = rejections?.[0]?.file as File | undefined
+    if (!file) return
+    const name = file.name.toLowerCase()
+    const okExt = ['.pdf', '.docx', '.doc', '.txt'].some((ext) => name.endsWith(ext))
+    if (okExt && file.size <= 10 * 1024 * 1024) {
+      await processFile(file)
+    } else {
+      setError('Please upload a PDF, DOCX, DOC, or TXT file under 10MB.')
+    }
+  }, [])
+
+  const processFile = useCallback(async (file: File) => {
     setError(null)
     setIsUploading(true)
     setIsParsing(true)
@@ -103,6 +120,7 @@ export function MatchScanner() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    onDropRejected,
     accept: {
       'application/pdf': ['.pdf'],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
