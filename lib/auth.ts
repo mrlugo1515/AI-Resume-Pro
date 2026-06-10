@@ -17,6 +17,10 @@ export const auth = betterAuth({
   trustedOrigins: [
     'https://forgecareerai.com',
     'https://www.forgecareerai.com',
+    'http://localhost:3000',
+    'https://localhost:3000',
+    // Vercel preview/production deployment URLs
+    '*.vercel.app',
     ...(process.env.V0_RUNTIME_URL ? [process.env.V0_RUNTIME_URL] : []),
     ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
     ...(process.env.VERCEL_PROJECT_PRODUCTION_URL

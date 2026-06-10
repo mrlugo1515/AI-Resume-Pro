@@ -36,8 +36,16 @@ export async function POST(request: NextRequest) {
     let extractedText = ''
 
     if (fileType === 'application/pdf') {
-      // Parse PDF using pdf-parse v2 PDFParse class API
+      // Parse PDF using pdf-parse v2 PDFParse class API.
+      // pdfjs-dist needs an explicit worker path on the server, otherwise it
+      // throws "Setting up fake worker failed". Point it at the bundled worker.
       const { PDFParse } = await import('pdf-parse')
+      const { getPath } = await import('pdf-parse/worker')
+      try {
+        PDFParse.setWorker(getPath())
+      } catch {
+        // setWorker may have already been configured; ignore re-init errors.
+      }
       const parser = new PDFParse({ data: buffer })
       try {
         const pdfData = await parser.getText()
