@@ -40,15 +40,20 @@ export function ResumeWizard() {
 
     setError(null)
     setIsUploading(true)
-    setProgress(10)
+    setIsParsing(true)
+    setProgress(15)
+
+    // Smoothly creep the progress bar forward while we wait on the network so
+    // the UI never feels frozen. We cap at 90% until the response arrives.
+    const progressTimer = setInterval(() => {
+      setProgress((prev) => (prev < 90 ? prev + 5 : prev))
+    }, 200)
 
     try {
       // Upload + parse the file in a single request.
       const formData = new FormData()
       formData.append('file', file)
 
-      setProgress(30)
-      setIsParsing(true)
       const uploadRes = await fetch('/api/upload-resume', {
         method: 'POST',
         body: formData,
@@ -60,7 +65,6 @@ export function ResumeWizard() {
       }
 
       const uploadData = await uploadRes.json()
-      setProgress(80)
 
       // Auto-generate title from filename
       const title = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ')
@@ -88,6 +92,7 @@ export function ResumeWizard() {
       setError(err instanceof Error ? err.message : 'Something went wrong')
       setProgress(0)
     } finally {
+      clearInterval(progressTimer)
       setIsUploading(false)
       setIsParsing(false)
     }

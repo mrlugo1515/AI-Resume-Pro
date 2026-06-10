@@ -42,35 +42,47 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Read the file into memory once, then both store and parse it.
+    // Read the file into memory once, then store and parse it concurrently.
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
-    // Extract text directly from the in-memory buffer. This avoids a second
-    // round-trip to a private blob (which is not publicly fetchable).
+    const filename = `resumes/${session.user.id}/${Date.now()}-${file.name}`
+
+    // Run blob upload and text extraction in parallel. The user only needs the
+    // extracted text to continue, and both operations work off the same buffer,
+    // so there is no reason to wait for one before starting the other.
+    const [blobResult, parseResult] = await Promise.allSettled([
+      put(filename, buffer, {
+        access: 'private',
+        contentType: file.type,
+      }),
+      extractResumeText(buffer, file.type),
+    ])
+
+    // Resolve the extracted text / parse error.
     let extractedText = ''
     let parseError: string | null = null
-    try {
-      extractedText = await extractResumeText(buffer, file.type)
+    if (parseResult.status === 'fulfilled') {
+      extractedText = parseResult.value
       if (!extractedText || extractedText.length < 20) {
         parseError =
           'We could not read enough text from this file. It may be a scanned image or password-protected. Try the "Paste Text" option instead.'
       }
-    } catch (err) {
-      console.error('[v0] Parse error during upload:', err)
+    } else {
+      console.error('[v0] Parse error during upload:', parseResult.reason)
       parseError =
         'We could not extract text from this file. Please try a different file or use the "Paste Text" option.'
     }
 
-    // Upload to Vercel Blob with user-specific path
-    const filename = `resumes/${session.user.id}/${Date.now()}-${file.name}`
-    const blob = await put(filename, buffer, {
-      access: 'private',
-      contentType: file.type,
-    })
+    // The blob upload is non-blocking for the user flow; log but do not fail.
+    const pathname =
+      blobResult.status === 'fulfilled' ? blobResult.value.pathname : null
+    if (blobResult.status === 'rejected') {
+      console.error('[v0] Blob upload failed:', blobResult.reason)
+    }
 
     return NextResponse.json({ 
-      pathname: blob.pathname,
+      pathname,
       filename: file.name,
       size: file.size,
       type: file.type,

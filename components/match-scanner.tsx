@@ -53,14 +53,18 @@ export function MatchScanner() {
 
     setError(null)
     setIsUploading(true)
-    setProgress(10)
+    setIsParsing(true)
+    setProgress(15)
+
+    // Creep progress forward during the network wait so it never feels frozen.
+    const progressTimer = setInterval(() => {
+      setProgress((prev) => (prev < 90 ? prev + 5 : prev))
+    }, 200)
 
     try {
       const formData = new FormData()
       formData.append('file', file)
 
-      setProgress(30)
-      setIsParsing(true)
       const uploadRes = await fetch('/api/upload-resume', {
         method: 'POST',
         body: formData,
@@ -72,7 +76,6 @@ export function MatchScanner() {
       }
 
       const uploadData = await uploadRes.json()
-      setProgress(80)
 
       if (uploadData.parseError || !uploadData.text) {
         setUploadedFile(null)
@@ -92,6 +95,7 @@ export function MatchScanner() {
       setError(err instanceof Error ? err.message : 'Something went wrong')
       setProgress(0)
     } finally {
+      clearInterval(progressTimer)
       setIsUploading(false)
       setIsParsing(false)
     }
