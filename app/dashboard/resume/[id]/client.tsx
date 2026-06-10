@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ResumeDocument } from '@/components/resume-document'
 
 interface ResumeData {
   id: number
@@ -31,6 +32,7 @@ interface Improvement {
 export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
   const [copied, setCopied] = useState(false)
   const [showOriginal, setShowOriginal] = useState(false)
+  const [showRawText, setShowRawText] = useState(false)
   const [showCoverLetter, setShowCoverLetter] = useState(false)
   const [companyName, setCompanyName] = useState('')
   const [coverLetter, setCoverLetter] = useState('')
@@ -57,9 +59,18 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
     matchedKeywords = []
   }
 
+  // Strip markdown markers so copied/downloaded text reads cleanly
+  const toPlainText = (text: string) =>
+    text
+      .replace(/^\s*#{1,6}\s+/gm, '')
+      .replace(/^\s*([-*_]\s?){3,}\s*$/gm, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/^[\t ]*[-*+]\s+/gm, '• ')
+
   const handleCopy = async () => {
     if (resume.optimizedContent) {
-      await navigator.clipboard.writeText(resume.optimizedContent)
+      await navigator.clipboard.writeText(toPlainText(resume.optimizedContent))
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     }
@@ -67,7 +78,7 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
 
   const handleDownload = () => {
     if (resume.optimizedContent) {
-      const blob = new Blob([resume.optimizedContent], { type: 'text/plain' })
+      const blob = new Blob([toPlainText(resume.optimizedContent)], { type: 'text/plain' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
@@ -282,17 +293,37 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
       {/* Optimized Resume */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary-600" />
-            Optimized Resume
-          </CardTitle>
+          <div className="flex items-center justify-between gap-4">
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-primary-600" />
+              Optimized Resume
+            </CardTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowRawText(!showRawText)}
+              className="text-text-secondary"
+            >
+              {showRawText ? 'Document view' : 'Plain text'}
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
-          <Textarea
-            value={resume.optimizedContent || ''}
-            readOnly
-            className="min-h-[400px] font-mono text-sm bg-muted"
-          />
+          {resume.optimizedContent ? (
+            showRawText ? (
+              <Textarea
+                value={resume.optimizedContent}
+                readOnly
+                className="min-h-[400px] font-mono text-sm bg-muted"
+              />
+            ) : (
+              <ResumeDocument content={resume.optimizedContent} />
+            )
+          ) : (
+            <p className="text-sm text-text-secondary py-8 text-center">
+              No optimized content available yet.
+            </p>
+          )}
         </CardContent>
       </Card>
 

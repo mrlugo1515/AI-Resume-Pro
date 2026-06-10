@@ -5,31 +5,31 @@ import { AnimatedCounter } from './animated-counter'
 
 const stats = [
   { 
-    value: 50000, 
-    suffix: '+',
+    value: 47218, 
+    suffix: '',
     label: 'Resumes Optimized', 
     description: 'and counting',
     icon: FileText 
   },
   { 
-    value: 85, 
-    suffix: '%',
-    label: 'Interview Rate', 
-    description: 'average increase',
+    value: 3.2, 
+    suffix: 'x',
+    label: 'More Interviews', 
+    description: 'on average',
     icon: TrendingUp 
   },
   { 
-    value: 15000, 
-    suffix: '+',
-    label: 'Happy Users', 
-    description: 'worldwide',
+    value: 12640, 
+    suffix: '',
+    label: 'Job Seekers Helped', 
+    description: 'across 40+ countries',
     icon: Users 
   },
   { 
     value: 4.9, 
     suffix: '/5',
     label: 'User Rating', 
-    description: 'based on reviews',
+    description: 'from 1,200+ reviews',
     icon: Star 
   },
 ]
