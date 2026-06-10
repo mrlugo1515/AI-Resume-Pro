@@ -2,6 +2,7 @@
 
 import { FileText, Users, TrendingUp, Star } from 'lucide-react'
 import { AnimatedCounter } from './animated-counter'
+import { Reveal } from './reveal'
 
 const stats = [
   { 
@@ -41,10 +42,10 @@ export function AnimatedStats() {
         {stats.map((stat, i) => {
           const Icon = stat.icon
           return (
-            <div 
-              key={stat.label} 
-              className="bg-zinc-900/80 p-6 text-center animate-fade-in-up group hover:bg-zinc-900 transition-colors"
-              style={{ animationDelay: `${0.4 + i * 0.1}s` }}
+            <Reveal
+              key={stat.label}
+              delay={i * 80}
+              className="bg-zinc-900/80 p-6 text-center group hover:bg-zinc-900"
             >
               <div className="flex justify-center mb-3">
                 <div className="w-10 h-10 rounded-xl bg-primary-600/20 flex items-center justify-center group-hover:bg-primary-600/30 transition-colors">
@@ -60,7 +61,7 @@ export function AnimatedStats() {
               </p>
               <p className="text-sm font-medium text-zinc-300">{stat.label}</p>
               <p className="text-xs text-zinc-500">{stat.description}</p>
-            </div>
+            </Reveal>
           )
         })}
       </div>

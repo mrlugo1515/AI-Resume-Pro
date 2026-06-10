@@ -116,3 +116,12 @@ export const savedJob = pgTable('saved_job', {
   userId: text('userId').notNull(),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
+
+// --- Newsletter / email capture -------------------------------------------
+
+export const subscriber = pgTable('subscriber', {
+  id: serial('id').primaryKey(),
+  email: text('email').notNull().unique(),
+  source: text('source').notNull().default('unknown'),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+})

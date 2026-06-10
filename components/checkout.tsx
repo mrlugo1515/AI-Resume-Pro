@@ -10,6 +10,7 @@ import { X } from 'lucide-react'
 
 import { startCheckoutSession } from '@/app/actions/stripe'
 import { Button } from '@/components/ui/button'
+import { trackEvent } from '@/lib/analytics'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
@@ -64,7 +65,10 @@ export function CheckoutButton({ productId, children, className, variant = 'defa
   return (
     <>
       <Button 
-        onClick={() => setShowCheckout(true)} 
+        onClick={() => {
+          trackEvent('premium_purchase', { step: 'begin_checkout', product_id: productId })
+          setShowCheckout(true)
+        }} 
         className={className}
         variant={variant}
       >

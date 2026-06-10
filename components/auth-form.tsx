@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2, Sparkles } from 'lucide-react'
+import { trackEvent } from '@/lib/analytics'
 
 interface AuthFormProps {
   mode: 'sign-in' | 'sign-up'
@@ -38,6 +39,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           setError(result.error.message || 'Failed to sign up')
           return
         }
+        trackEvent('sign_up', { method: 'email' })
       } else {
         const result = await authClient.signIn.email({
           email,

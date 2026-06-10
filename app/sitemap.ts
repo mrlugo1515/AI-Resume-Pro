@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { blogPosts } from '@/lib/blog-posts'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL 
@@ -7,6 +8,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ? `https://${process.env.VERCEL_URL}`
       : 'https://forgecareerai.com'
 
+  const seoPages = [
+    'free-ats-check',
+    'ai-resume-builder',
+    'ats-resume-checker',
+    'resume-scoring-tool',
+    'career-development-assistant',
+    'interview-preparation-tool',
+  ].map((slug) => ({
+    url: `${baseUrl}/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.9,
+  }))
+
+  const blogArticles = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.dateISO),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
   return [
     {
       url: baseUrl,
@@ -14,6 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 1,
     },
+    ...seoPages,
     {
       url: `${baseUrl}/jobs`,
       lastModified: new Date(),
@@ -26,6 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    ...blogArticles,
     {
       url: `${baseUrl}/sign-in`,
       lastModified: new Date(),

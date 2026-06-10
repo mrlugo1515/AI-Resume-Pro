@@ -5,9 +5,9 @@ export function Footer() {
   return (
     <footer className="bg-zinc-950 border-t border-zinc-800 py-16 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10">
           {/* Brand */}
-          <div className="md:col-span-2">
+          <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-4">
               <div className="w-9 h-9 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
@@ -33,19 +33,51 @@ export function Footer() {
             <h4 className="text-sm font-semibold text-white mb-4">Product</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#how-it-works" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                <a href="/#how-it-works" className="text-sm text-zinc-400 hover:text-white transition-colors">
                   How It Works
                 </a>
               </li>
               <li>
-                <a href="#pricing" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                <a href="/#pricing" className="text-sm text-zinc-400 hover:text-white transition-colors">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#testimonials" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                <a href="/#testimonials" className="text-sm text-zinc-400 hover:text-white transition-colors">
                   Testimonials
                 </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Tools */}
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4">Tools</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/ai-resume-builder" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                  AI Resume Builder
+                </Link>
+              </li>
+              <li>
+                <Link href="/ats-resume-checker" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                  ATS Resume Checker
+                </Link>
+              </li>
+              <li>
+                <Link href="/resume-scoring-tool" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                  Resume Scoring Tool
+                </Link>
+              </li>
+              <li>
+                <Link href="/career-development-assistant" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                  Career Assistant
+                </Link>
+              </li>
+              <li>
+                <Link href="/interview-preparation-tool" className="text-sm text-zinc-400 hover:text-white transition-colors">
+                  Interview Prep
+                </Link>
               </li>
             </ul>
           </div>
