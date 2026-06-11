@@ -9,6 +9,7 @@ import { BeforeAfterDemo } from '@/components/before-after-demo'
 import { FAQ } from '@/components/faq'
 import { AnimatedStats } from '@/components/animated-stats'
 import { PricingSection } from '@/components/pricing-section'
+import { WhyNotChatGPT } from '@/components/why-not-chatgpt'
 
 const features = [
   {
@@ -32,22 +33,22 @@ const benefits = [
   {
     icon: Target,
     title: 'Job-Specific Tailoring',
-    description: 'Every resume is customized to match the exact requirements of your target position.',
+    description: 'Stop sending the same generic resume everywhere. Get a version built for the one job you actually want.',
   },
   {
     icon: Shield,
     title: 'ATS-Friendly Format',
-    description: 'Guaranteed to pass through Applicant Tracking Systems that filter out 75% of applications.',
+    description: 'Stop getting rejected before a human ever sees your resume. We get you past the filters.',
   },
   {
     icon: Zap,
     title: 'Instant Results',
-    description: 'Get your optimized resume in under 2 minutes. No waiting, no manual reviews.',
+    description: 'Go from "still working on it" to "just applied" in under 2 minutes. No more weekends lost to formatting.',
   },
   {
     icon: TrendingUp,
     title: 'Achievement Highlighting',
-    description: 'AI identifies and emphasizes your most impactful accomplishments and metrics.',
+    description: 'We find the wins on your resume you forgot to brag about — and put them front and center.',
   },
 ]
 
@@ -55,7 +56,7 @@ const testimonials = [
   {
     name: 'Sarah Chen',
     role: 'Product Manager',
-    company: 'Stripe',
+    company: 'Gusto',
     content: "I was applying to 20+ jobs with no responses. After using ForgeCareerAI, I got 3 interviews in the first week. The keyword optimization is incredible.",
     rating: 5,
     image: 'SC',
@@ -63,7 +64,7 @@ const testimonials = [
   {
     name: 'James Rodriguez',
     role: 'Software Engineer',
-    company: 'Google',
+    company: 'Lumen Health',
     content: "The AI completely transformed my resume. It highlighted achievements I didn't think to include. Landed my dream job within a month.",
     rating: 5,
     image: 'JR',
@@ -71,7 +72,7 @@ const testimonials = [
   {
     name: 'Emily Park',
     role: 'Marketing Director',
-    company: 'HubSpot',
+    company: 'Northbeam',
     content: "As someone who reviews hundreds of resumes, I can instantly tell the difference. ForgeCareerAI produces results that actually stand out.",
     rating: 5,
     image: 'EP',
@@ -295,6 +296,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Why not ChatGPT objection handler */}
+      <WhyNotChatGPT />
 
       {/* Pricing */}
       <PricingSection />

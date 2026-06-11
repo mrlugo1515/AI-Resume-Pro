@@ -1,24 +1,21 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Check, X, Sparkles } from 'lucide-react'
+import { ArrowRight, Check, X, Sparkles, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const beforeResume = {
-  title: 'Software Developer',
-  summary: 'I have worked on various projects and have experience with programming.',
+  title: 'Senior Full-Stack Engineer',
+  summary: 'Results-driven Full-Stack Engineer with 5+ years of experience building scalable web applications that drive business growth.',
   bullets: [
-    'Worked on website development',
-    'Used JavaScript and React',
-    'Helped with team projects',
-    'Fixed bugs in the code',
+    'Architected and deployed 12 production web applications serving 100K+ daily users',
+    'Reduced page load times by 65% through React optimization and code splitting',
+    'Led cross-functional team of 6 developers, delivering projects 20% ahead of schedule',
+    'Implemented CI/CD pipeline reducing deployment time from 2 hours to 15 minutes',
   ],
-  issues: [
-    'Vague job title',
-    'No metrics or achievements',
-    'Passive language',
-    'Missing keywords for ATS',
-  ]
+  views: 3,
+  outcome: 'Buried in the ATS',
+  outcomeDetail: 'Strong resume — but missing the keywords this specific job screens for. Recruiters never saw it.',
 }
 
 const afterResume = {
@@ -30,12 +27,9 @@ const afterResume = {
     'Led cross-functional team of 6 developers, delivering projects 20% ahead of schedule',
     'Implemented CI/CD pipeline reducing deployment time from 2 hours to 15 minutes',
   ],
-  improvements: [
-    'Specific, ATS-friendly title',
-    'Quantified achievements',
-    'Action-oriented language',
-    'Industry keywords added',
-  ]
+  views: 759,
+  outcome: 'Surfaced to recruiters',
+  outcomeDetail: 'Tailored to match the exact keywords this job screens for — so it ranks at the top and actually gets opened.',
 }
 
 export function BeforeAfterDemo() {
@@ -52,10 +46,10 @@ export function BeforeAfterDemo() {
             See the Transformation
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Before & After AI Optimization
+            The same resume. 253x more eyes on it.
           </h2>
           <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
-            Watch how our AI transforms a generic resume into a powerful, interview-winning document.
+            Your experience is already strong. The problem is nobody&apos;s seeing it. Watch what happens when your resume is tuned to the exact job you&apos;re applying for.
           </p>
         </div>
 
@@ -122,51 +116,49 @@ export function BeforeAfterDemo() {
           </div>
 
           {/* Analysis Panel */}
-          <div className="bg-zinc-900 rounded-2xl p-8 border border-zinc-800">
-            <div className="flex items-center gap-3 mb-6">
+          <div className="bg-zinc-900 rounded-2xl p-8 border border-zinc-800 flex flex-col">
+            {/* Big visual outcome: recruiter views */}
+            <div className={`flex flex-col items-center text-center rounded-2xl p-8 mb-6 transition-all ${
+              showAfter
+                ? 'bg-green-500/10 border border-green-500/20'
+                : 'bg-red-500/10 border border-red-500/20'
+            }`}>
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 ${
+                showAfter ? 'bg-green-500/20' : 'bg-red-500/20'
+              }`}>
+                <Eye className={`w-7 h-7 ${showAfter ? 'text-green-400' : 'text-red-400'}`} />
+              </div>
+              <div className={`text-6xl font-bold tabular-nums transition-all ${
+                showAfter ? 'text-green-400' : 'text-red-400'
+              }`}>
+                {showAfter ? afterResume.views : beforeResume.views}
+              </div>
+              <p className="text-sm text-zinc-400 mt-2">recruiters viewed this resume</p>
+            </div>
+
+            {/* Outcome label */}
+            <div className="flex items-center gap-3 mb-3">
               {showAfter ? (
-                <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
                   <Check className="w-5 h-5 text-green-400" />
                 </div>
               ) : (
-                <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
                   <X className="w-5 h-5 text-red-400" />
                 </div>
               )}
               <div>
                 <h4 className="font-semibold text-white">
-                  {showAfter ? 'AI Improvements' : 'Issues Found'}
+                  {showAfter ? afterResume.outcome : beforeResume.outcome}
                 </h4>
-                <p className="text-sm text-zinc-500">
-                  {showAfter ? 'What we enhanced' : 'What needs fixing'}
-                </p>
               </div>
             </div>
-
-            <div className="space-y-4">
-              {(showAfter ? afterResume.improvements : beforeResume.issues).map((item, i) => (
-                <div 
-                  key={i}
-                  className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
-                    showAfter 
-                      ? 'bg-green-500/10 border border-green-500/20' 
-                      : 'bg-red-500/10 border border-red-500/20'
-                  }`}
-                >
-                  {showAfter ? (
-                    <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
-                  ) : (
-                    <X className="w-4 h-4 text-red-400 flex-shrink-0" />
-                  )}
-                  <span className={`text-sm ${showAfter ? 'text-green-300' : 'text-red-300'}`}>
-                    {item}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              {showAfter ? afterResume.outcomeDetail : beforeResume.outcomeDetail}
+            </p>
 
             {/* Score */}
-            <div className="mt-8 pt-6 border-t border-zinc-800">
+            <div className="mt-auto pt-6 border-t border-zinc-800">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-zinc-400">ATS Score</span>
                 <span className={`text-2xl font-bold ${
