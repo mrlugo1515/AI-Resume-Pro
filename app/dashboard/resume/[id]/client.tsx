@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ResumeDocument } from '@/components/resume-document'
+import { ResumePreview } from '@/components/resume-preview'
 import { ResumeEditor } from '@/components/resume-editor'
 
 interface ResumeData {
@@ -351,7 +351,7 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
                 className="min-h-[400px] font-mono text-sm bg-muted"
               />
             ) : (
-              <ResumeDocument content={resume.optimizedContent} />
+              <ResumePreview content={resume.optimizedContent} />
             )
           ) : (
             <p className="text-sm text-text-secondary py-8 text-center">

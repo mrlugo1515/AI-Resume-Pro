@@ -8,6 +8,7 @@ import { DashboardHeader } from '@/components/dashboard-header'
 import { getResumes, getResumeStats } from '@/app/actions/resume'
 import { getJobStats } from '@/app/actions/jobs'
 import { ResumeActions } from '@/components/resume-actions'
+import { RecommendedJobs } from '@/components/recommended-jobs'
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({ headers: await headers() })
@@ -220,32 +221,38 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Weekly Activity */}
-          <Card>
-            <CardContent className="pt-6">
-              <h3 className="font-semibold text-text-primary mb-4 flex items-center gap-2">
-                <BarChart3 className="w-4 h-4 text-primary-500" />
-                Weekly Activity
-              </h3>
-              <div className="flex items-end justify-between gap-2 h-24">
-                {weeklyActivity.map((day) => (
-                  <div key={day.day} className="flex flex-col items-center gap-2 flex-1">
-                    <div 
-                      className="w-full bg-primary-100 rounded-t-sm transition-all hover:bg-primary-200"
-                      style={{ 
-                        height: `${Math.max((day.count / maxCount) * 100, 8)}%`,
-                        minHeight: '4px'
-                      }}
-                    />
-                    <span className="text-[10px] text-text-muted">{day.day}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-text-muted text-center mt-4">
-                {weeklyActivity.reduce((sum, d) => sum + d.count, 0)} resumes this week
-              </p>
-            </CardContent>
-          </Card>
+          {/* Right column: Weekly Activity + Recommended Jobs */}
+          <div className="space-y-6">
+            {/* Weekly Activity */}
+            <Card>
+              <CardContent className="pt-6">
+                <h3 className="font-semibold text-text-primary mb-4 flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-primary-500" />
+                  Weekly Activity
+                </h3>
+                <div className="flex items-end justify-between gap-2 h-24">
+                  {weeklyActivity.map((day) => (
+                    <div key={day.day} className="flex flex-col items-center gap-2 flex-1">
+                      <div 
+                        className="w-full bg-primary-100 rounded-t-sm transition-all hover:bg-primary-200"
+                        style={{ 
+                          height: `${Math.max((day.count / maxCount) * 100, 8)}%`,
+                          minHeight: '4px'
+                        }}
+                      />
+                      <span className="text-[10px] text-text-muted">{day.day}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-text-muted text-center mt-4">
+                  {weeklyActivity.reduce((sum, d) => sum + d.count, 0)} resumes this week
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Recommended Jobs feed */}
+            <RecommendedJobs />
+          </div>
         </div>
 
         {/* Pro Tips Banner */}
