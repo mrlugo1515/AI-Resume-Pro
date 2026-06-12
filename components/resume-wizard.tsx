@@ -19,12 +19,18 @@ interface UploadedFile {
   type: string
 }
 
-export function ResumeWizard() {
+export function ResumeWizard({
+  prefillJobDescription = '',
+  prefillTitle = '',
+}: {
+  prefillJobDescription?: string
+  prefillTitle?: string
+}) {
   const router = useRouter()
   const [step, setStep] = useState<Step>('upload')
-  const [resumeTitle, setResumeTitle] = useState('')
+  const [resumeTitle, setResumeTitle] = useState(prefillTitle)
   const [resumeContent, setResumeContent] = useState('')
-  const [jobDescription, setJobDescription] = useState('')
+  const [jobDescription, setJobDescription] = useState(prefillJobDescription)
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [isParsing, setIsParsing] = useState(false)
@@ -438,7 +444,9 @@ B.S. Computer Science, MIT"
 
             <h2 className="text-xl font-semibold text-text-primary mb-1">Target Job (Optional)</h2>
             <p className="text-text-secondary mb-6">
-              Add a job description to get personalized optimization tailored to the role
+              {prefillJobDescription
+                ? 'We pre-filled the job you selected. Upload your resume above, then optimize for this exact role.'
+                : 'Add a job description to get personalized optimization tailored to the role'}
             </p>
 
             <Textarea

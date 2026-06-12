@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Copy, Check, Download, FileText, Sparkles, Target, Clock, ChevronDown, ChevronUp, Loader2, CheckCircle2, Tag, AlertCircle } from 'lucide-react'
+import { ArrowLeft, Copy, Check, Download, FileText, Sparkles, Target, Clock, ChevronDown, ChevronUp, Loader2, CheckCircle2, Tag, AlertCircle, Wand2, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ResumeDocument } from '@/components/resume-document'
+import { ResumeEditor } from '@/components/resume-editor'
 
 interface ResumeData {
   id: number
@@ -30,6 +31,7 @@ interface Improvement {
 }
 
 export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
+  const [mode, setMode] = useState<'view' | 'edit'>('view')
   const [copied, setCopied] = useState(false)
   const [showOriginal, setShowOriginal] = useState(false)
   const [showRawText, setShowRawText] = useState(false)
@@ -154,6 +156,26 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
           </div>
         </div>
         <div className="flex gap-2">
+          <div className="flex rounded-lg border border-border overflow-hidden">
+            <button
+              onClick={() => setMode('view')}
+              className={`px-3 py-1.5 text-sm font-medium flex items-center gap-1.5 transition-colors ${
+                mode === 'view' ? 'bg-primary-500 text-white' : 'bg-surface text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              <Eye className="w-4 h-4" />
+              View
+            </button>
+            <button
+              onClick={() => setMode('edit')}
+              className={`px-3 py-1.5 text-sm font-medium flex items-center gap-1.5 transition-colors ${
+                mode === 'edit' ? 'bg-primary-500 text-white' : 'bg-surface text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              <Wand2 className="w-4 h-4" />
+              Edit
+            </button>
+          </div>
           <Button variant="outline" size="sm" onClick={handleCopy}>
             {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
             {copied ? 'Copied!' : 'Copy'}
@@ -165,6 +187,18 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         </div>
       </div>
 
+      {mode === 'edit' ? (
+        <ResumeEditor
+          resumeId={resume.id}
+          initialContent={resume.optimizedContent || resume.originalContent}
+          jobDescription={resume.jobDescription}
+          initialAtsScore={resume.atsScore}
+          initialImprovements={improvements}
+          initialMatched={matchedKeywords}
+          initialMissing={missingKeywords}
+        />
+      ) : (
+      <>
       {/* Stats Cards */}
       <div className="grid sm:grid-cols-3 gap-4">
         <Card>
@@ -446,6 +480,9 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
           </CardContent>
         )}
       </Card>
+
+      </>
+      )}
 
       {/* Actions */}
       <div className="flex gap-4">

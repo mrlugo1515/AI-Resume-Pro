@@ -6,63 +6,59 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { DashboardHeader } from '@/components/dashboard-header'
 import { getResumes, getResumeStats } from '@/app/actions/resume'
+import { getJobStats } from '@/app/actions/jobs'
 import { ResumeActions } from '@/components/resume-actions'
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({ headers: await headers() })
   const resumes = await getResumes()
   const stats = await getResumeStats()
+  const jobStats = await getJobStats()
+
+  const monthTrend = stats.thisMonth - stats.lastMonth
 
   const statCards = [
-    { 
-      label: 'Total Resumes', 
-      value: stats.total.toString(), 
-      icon: FileText, 
-      color: 'text-primary-600', 
+    {
+      label: 'Total Resumes',
+      value: stats.total.toString(),
+      icon: FileText,
+      color: 'text-primary-600',
       bg: 'bg-primary-50',
-      trend: '+12%',
-      trendUp: true
+      trend: stats.total > 0 ? `${stats.completed} optimized` : null,
+      trendUp: true,
     },
-    { 
-      label: 'This Month', 
-      value: stats.thisMonth.toString(), 
-      icon: Calendar, 
-      color: 'text-accent-600', 
+    {
+      label: 'This Month',
+      value: stats.thisMonth.toString(),
+      icon: Calendar,
+      color: 'text-accent-600',
       bg: 'bg-accent-50',
-      trend: '+3',
-      trendUp: true
+      trend: monthTrend !== 0 ? `${monthTrend > 0 ? '+' : ''}${monthTrend} vs last` : null,
+      trendUp: monthTrend >= 0,
     },
-    { 
-      label: 'Optimized', 
-      value: stats.completed.toString(), 
-      icon: Target, 
-      color: 'text-green-600', 
+    {
+      label: 'Applications',
+      value: jobStats.applicationsCount.toString(),
+      icon: FileCheck,
+      color: 'text-purple-600',
+      bg: 'bg-purple-50',
+      trend: jobStats.savedCount > 0 ? `${jobStats.savedCount} saved` : null,
+      trendUp: true,
+    },
+    {
+      label: 'Avg ATS Score',
+      value: stats.avgAtsScore !== null ? `${stats.avgAtsScore}%` : '-',
+      icon: TrendingUp,
+      color: 'text-green-600',
       bg: 'bg-green-50',
-      trend: '100%',
-      trendUp: true
-    },
-    { 
-      label: 'Avg ATS Score', 
-      value: stats.total > 0 ? '92%' : '-', 
-      icon: TrendingUp, 
-      color: 'text-primary-600', 
-      bg: 'bg-primary-50',
-      trend: '+15pts',
-      trendUp: true
+      trend: stats.bestAtsScore !== null ? `best ${stats.bestAtsScore}%` : null,
+      trendUp: true,
     },
   ]
 
-  // Activity chart data (mock weekly activity)
-  const weeklyActivity = [
-    { day: 'Mon', count: 2 },
-    { day: 'Tue', count: 1 },
-    { day: 'Wed', count: 3 },
-    { day: 'Thu', count: 0 },
-    { day: 'Fri', count: 2 },
-    { day: 'Sat', count: 1 },
-    { day: 'Sun', count: 0 },
-  ]
-  const maxCount = Math.max(...weeklyActivity.map(d => d.count), 1)
+  // Real weekly activity from the database.
+  const weeklyActivity = stats.weeklyActivity
+  const maxCount = Math.max(...weeklyActivity.map((d) => d.count), 1)
 
   return (
     <div className="min-h-screen bg-surface">
@@ -100,7 +96,7 @@ export default async function DashboardPage() {
                       <span className={`text-xs font-medium px-2 py-1 rounded-full ${
                         stat.trendUp ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
                       }`}>
-                        {stat.trendUp ? '↑' : '↓'} {stat.trend}
+                        {stat.trend}
                       </span>
                     )}
                   </div>

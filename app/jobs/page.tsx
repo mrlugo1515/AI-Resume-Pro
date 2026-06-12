@@ -4,38 +4,29 @@ import { useState, useEffect, useTransition } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { getJobs, JobFilters } from '@/app/actions/jobs'
-import { 
-  Search, 
-  MapPin, 
-  Building2, 
-  Clock, 
+import { getMatchedJobs, type MatchedJob } from '@/app/actions/external-jobs'
+import { type ExternalJobFilters } from '@/lib/jobs-api'
+import { MatchRing } from '@/components/match-ring'
+import {
+  Search,
+  MapPin,
+  Building2,
   DollarSign,
   Briefcase,
   Filter,
   X,
-  Sparkles
+  Sparkles,
+  Radio,
+  FileText,
+  ArrowUpDown,
 } from 'lucide-react'
 
-type Job = {
-  id: number
-  title: string
-  company: string
-  location: string
-  locationType: string
-  jobType: string
-  salaryMin: number | null
-  salaryMax: number | null
-  description: string
-  featured: boolean
-  createdAt: Date
-}
-
 export default function JobsPage() {
-  const [jobs, setJobs] = useState<Job[]>([])
+  const [jobs, setJobs] = useState<MatchedJob[]>([])
+  const [hasResume, setHasResume] = useState(false)
+  const [liveData, setLiveData] = useState(false)
   const [isPending, startTransition] = useTransition()
-  const [showFilters, setShowFilters] = useState(false)
-  const [filters, setFilters] = useState<JobFilters>({
+  const [filters, setFilters] = useState<ExternalJobFilters>({
     search: '',
     location: '',
     locationType: '',
@@ -44,19 +35,22 @@ export default function JobsPage() {
 
   useEffect(() => {
     loadJobs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const loadJobs = (newFilters?: JobFilters) => {
+  const loadJobs = (newFilters?: ExternalJobFilters) => {
     startTransition(async () => {
       const activeFilters = newFilters || filters
-      const cleanFilters: JobFilters = {}
+      const cleanFilters: ExternalJobFilters = {}
       if (activeFilters.search) cleanFilters.search = activeFilters.search
       if (activeFilters.location) cleanFilters.location = activeFilters.location
       if (activeFilters.locationType) cleanFilters.locationType = activeFilters.locationType
       if (activeFilters.jobType) cleanFilters.jobType = activeFilters.jobType
-      
-      const result = await getJobs(Object.keys(cleanFilters).length > 0 ? cleanFilters : undefined)
-      setJobs(result as Job[])
+
+      const result = await getMatchedJobs(Object.keys(cleanFilters).length > 0 ? cleanFilters : undefined)
+      setJobs(result.jobs)
+      setHasResume(result.hasResume)
+      setLiveData(result.liveData)
     })
   }
 
@@ -79,11 +73,11 @@ export default function JobsPage() {
     return null
   }
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: string) => {
     const now = new Date()
     const diff = now.getTime() - new Date(date).getTime()
     const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-    if (days === 0) return 'Today'
+    if (days <= 0) return 'Today'
     if (days === 1) return 'Yesterday'
     if (days < 7) return `${days} days ago`
     if (days < 30) return `${Math.floor(days / 7)} weeks ago`
@@ -105,6 +99,8 @@ export default function JobsPage() {
     { value: 'internship', label: 'Internship' },
   ]
 
+  const topMatch = hasResume && jobs.length > 0 ? jobs[0]?.match?.score ?? 0 : 0
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -124,16 +120,24 @@ export default function JobsPage() {
                 </Button>
               </Link>
               <Link href="/jobs/post">
-                <Button className="bg-primary-500 hover:bg-primary-600">
-                  Post a Job
-                </Button>
+                <Button className="bg-primary-500 hover:bg-primary-600">Post a Job</Button>
               </Link>
             </div>
           </div>
-          
-          <h1 className="text-4xl font-bold mb-4">Find Your Next Opportunity</h1>
+
+          <div className="flex items-center gap-3 mb-4">
+            <h1 className="text-4xl font-bold">Find Your Next Opportunity</h1>
+            {liveData && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-500/15 text-green-300 text-xs font-medium border border-green-500/20">
+                <Radio className="w-3 h-3" />
+                Live listings
+              </span>
+            )}
+          </div>
           <p className="text-zinc-400 text-lg mb-8">
-            Discover jobs that match your optimized resume
+            {hasResume
+              ? 'Ranked by how well each role matches your resume.'
+              : 'Real jobs, scored against your resume the moment you create one.'}
           </p>
 
           {/* Search Bar */}
@@ -167,18 +171,41 @@ export default function JobsPage() {
 
       {/* Filters & Results */}
       <div className="max-w-6xl mx-auto px-4 py-8">
+        {/* Resume CTA banner */}
+        {!hasResume && (
+          <div className="mb-6 p-5 rounded-xl border border-primary-200 bg-primary-50 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-10 h-10 rounded-lg bg-primary-500 flex items-center justify-center shrink-0">
+              <FileText className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-text-primary">Unlock personalized match scores</h3>
+              <p className="text-sm text-text-secondary">
+                Create or optimize a resume and we&apos;ll rank every job by how well you fit.
+              </p>
+            </div>
+            <Link href="/dashboard">
+              <Button className="bg-primary-500 hover:bg-primary-600 whitespace-nowrap">Create a resume</Button>
+            </Link>
+          </div>
+        )}
+
+        {hasResume && !isPending && jobs.length > 0 && (
+          <div className="mb-6 p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
+            <ArrowUpDown className="w-4 h-4 text-primary-500" />
+            <p className="text-sm text-text-secondary">
+              Sorted by best match for you. Your top result is a{' '}
+              <span className="font-semibold text-text-primary">{topMatch}% match</span>.
+            </p>
+          </div>
+        )}
+
         {/* Filter Bar */}
         <div className="flex flex-wrap items-center gap-4 mb-6">
-          <Button
-            variant="outline"
-            onClick={() => setShowFilters(!showFilters)}
-            className="gap-2"
-          >
+          <Button variant="outline" className="gap-2" disabled>
             <Filter className="w-4 h-4" />
             Filters
           </Button>
-          
-          {/* Quick Filters */}
+
           <select
             value={filters.locationType}
             onChange={(e) => {
@@ -194,7 +221,7 @@ export default function JobsPage() {
               </option>
             ))}
           </select>
-          
+
           <select
             value={filters.jobType}
             onChange={(e) => {
@@ -228,7 +255,7 @@ export default function JobsPage() {
           {isPending ? (
             <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary-500 border-t-transparent"></div>
-              <p className="mt-4 text-text-secondary">Loading jobs...</p>
+              <p className="mt-4 text-text-secondary">Finding your best matches...</p>
             </div>
           ) : jobs.length === 0 ? (
             <div className="text-center py-12 bg-surface rounded-xl border border-border">
@@ -241,24 +268,24 @@ export default function JobsPage() {
             </div>
           ) : (
             jobs.map((jobItem) => (
-              <Link key={jobItem.id} href={`/jobs/${jobItem.id}`}>
-                <div className={`p-6 rounded-xl border transition-all hover:shadow-lg hover:border-primary-300 cursor-pointer ${
-                  jobItem.featured ? 'bg-primary-50 border-primary-200' : 'bg-surface border-border'
-                }`}>
+              <Link key={jobItem.id} href={`/jobs/${encodeURIComponent(jobItem.id)}`}>
+                <div
+                  className={`p-6 rounded-xl border transition-all hover:shadow-lg hover:border-primary-300 cursor-pointer ${
+                    jobItem.featured ? 'bg-primary-50/50 border-primary-200' : 'bg-surface border-border'
+                  }`}
+                >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2 flex-wrap">
                         {jobItem.featured && (
                           <span className="px-2 py-0.5 bg-primary-500 text-white text-xs font-medium rounded-full">
                             Featured
                           </span>
                         )}
-                        <span className="text-sm text-text-secondary">{formatDate(jobItem.createdAt)}</span>
+                        <span className="text-sm text-text-secondary">{formatDate(jobItem.postedAt)}</span>
                       </div>
-                      <h3 className="text-xl font-semibold text-text-primary mb-1">
-                        {jobItem.title}
-                      </h3>
-                      <div className="flex items-center gap-4 text-text-secondary mb-3">
+                      <h3 className="text-xl font-semibold text-text-primary mb-1 truncate">{jobItem.title}</h3>
+                      <div className="flex items-center gap-4 text-text-secondary mb-3 flex-wrap">
                         <span className="flex items-center gap-1">
                           <Building2 className="w-4 h-4" />
                           {jobItem.company}
@@ -283,9 +310,18 @@ export default function JobsPage() {
                         )}
                       </div>
                     </div>
-                    <Button variant="outline" className="shrink-0">
-                      View Job
-                    </Button>
+                    <div className="flex flex-col items-center gap-2 shrink-0">
+                      {jobItem.match ? (
+                        <MatchRing score={jobItem.match.score} />
+                      ) : (
+                        <div className="w-14 h-14 rounded-full border-2 border-dashed border-border flex items-center justify-center">
+                          <Sparkles className="w-5 h-5 text-text-secondary" />
+                        </div>
+                      )}
+                      <Button variant="outline" size="sm" className="shrink-0">
+                        View
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </Link>

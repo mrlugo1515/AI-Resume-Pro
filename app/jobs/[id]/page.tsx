@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getJobById, incrementJobViews, hasApplied } from '@/app/actions/jobs'
+import { getMatchedJobById } from '@/app/actions/external-jobs'
 import { Button } from '@/components/ui/button'
-import { ApplyButton } from './apply-button'
+import { MatchRing } from '@/components/match-ring'
 import {
   ArrowLeft,
   MapPin,
@@ -10,12 +10,11 @@ import {
   Clock,
   DollarSign,
   Briefcase,
-  Users,
-  Eye,
   ExternalLink,
-  Mail,
   Sparkles,
   CheckCircle2,
+  XCircle,
+  Target,
 } from 'lucide-react'
 
 export default async function JobDetailPage({
@@ -24,16 +23,14 @@ export default async function JobDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const job = await getJobById(parseInt(id))
-  
+  const decodedId = decodeURIComponent(id)
+  const { job, hasResume } = await getMatchedJobById(decodedId)
+
   if (!job) {
     notFound()
   }
 
-  // Increment views
-  await incrementJobViews(job.id)
-  
-  const alreadyApplied = await hasApplied(job.id)
+  const match = job.match
 
   const formatSalary = (min: number | null, max: number | null) => {
     if (!min && !max) return null
@@ -43,13 +40,15 @@ export default async function JobDetailPage({
     return null
   }
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric',
     })
   }
+
+  const optimizeHref = `/dashboard/new?job=${encodeURIComponent(job.id)}`
 
   return (
     <div className="min-h-screen bg-background">
@@ -88,7 +87,7 @@ export default async function JobDetailPage({
                 <Building2 className="w-5 h-5" />
                 {job.company}
               </div>
-              
+
               <div className="flex flex-wrap gap-4 text-text-secondary">
                 <span className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
@@ -105,34 +104,25 @@ export default async function JobDetailPage({
               </div>
             </div>
 
-            <div className="flex flex-col gap-3">
-              {alreadyApplied ? (
-                <Button disabled className="gap-2 bg-green-500 hover:bg-green-500 cursor-default">
-                  <CheckCircle2 className="w-4 h-4" />
-                  Already Applied
-                </Button>
-              ) : job.applicationUrl ? (
+            <div className="flex flex-col items-center gap-3">
+              {match && <MatchRing score={match.score} size={72} />}
+              {job.applicationUrl ? (
                 <a href={job.applicationUrl} target="_blank" rel="noopener noreferrer">
                   <Button className="w-full gap-2 bg-primary-500 hover:bg-primary-600">
                     Apply Now
                     <ExternalLink className="w-4 h-4" />
                   </Button>
                 </a>
-              ) : job.applicationEmail ? (
-                <a href={`mailto:${job.applicationEmail}?subject=Application for ${job.title}`}>
-                  <Button className="w-full gap-2 bg-primary-500 hover:bg-primary-600">
-                    <Mail className="w-4 h-4" />
-                    Apply via Email
-                  </Button>
-                </a>
               ) : (
-                <ApplyButton jobId={job.id} />
+                <Button disabled className="gap-2">
+                  Apply
+                </Button>
               )}
-              
-              <Link href="/dashboard/new">
+
+              <Link href={optimizeHref}>
                 <Button variant="outline" className="w-full gap-2">
                   <Sparkles className="w-4 h-4" />
-                  Optimize Resume for This Job
+                  Tailor Resume for This Job
                 </Button>
               </Link>
             </div>
@@ -152,30 +142,12 @@ export default async function JobDetailPage({
               </div>
             )}
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                <Eye className="w-5 h-5 text-primary-600" />
-              </div>
-              <div>
-                <p className="text-sm text-text-secondary">Views</p>
-                <p className="font-semibold text-text-primary">{job.views}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Users className="w-5 h-5 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm text-text-secondary">Applications</p>
-                <p className="font-semibold text-text-primary">{job.applications}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
               <div className="w-10 h-10 bg-zinc-100 rounded-lg flex items-center justify-center">
                 <Clock className="w-5 h-5 text-zinc-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">Posted</p>
-                <p className="font-semibold text-text-primary">{formatDate(job.createdAt)}</p>
+                <p className="font-semibold text-text-primary">{formatDate(job.postedAt)}</p>
               </div>
             </div>
           </div>
@@ -215,27 +187,80 @@ export default async function JobDetailPage({
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Company Info */}
+            {/* Match Analysis */}
             <div className="bg-surface rounded-xl border border-border p-6">
-              <h3 className="font-semibold text-text-primary mb-4">About {job.company}</h3>
-              <div className="w-16 h-16 bg-zinc-100 rounded-xl flex items-center justify-center mb-4">
-                <Building2 className="w-8 h-8 text-zinc-400" />
+              <div className="flex items-center gap-2 mb-4">
+                <Target className="w-5 h-5 text-primary-500" />
+                <h3 className="font-semibold text-text-primary">Your Match</h3>
               </div>
-              <p className="text-text-secondary text-sm">
-                Learn more about working at {job.company} and discover other open positions.
-              </p>
+
+              {match ? (
+                <>
+                  <div className="flex items-center gap-4 mb-4">
+                    <MatchRing score={match.score} size={64} />
+                    <p className="text-sm text-text-secondary">{match.reason}</p>
+                  </div>
+
+                  {match.matchedKeywords.length > 0 && (
+                    <div className="mb-4">
+                      <p className="text-xs font-medium text-text-secondary mb-2 flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                        Skills you have
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {match.matchedKeywords.map((kw) => (
+                          <span
+                            key={kw}
+                            className="px-2 py-0.5 bg-green-50 text-green-700 text-xs rounded-full capitalize"
+                          >
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {match.missingKeywords.length > 0 && (
+                    <div>
+                      <p className="text-xs font-medium text-text-secondary mb-2 flex items-center gap-1">
+                        <XCircle className="w-3.5 h-3.5 text-amber-500" />
+                        Gaps to address
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {match.missingKeywords.map((kw) => (
+                          <span
+                            key={kw}
+                            className="px-2 py-0.5 bg-amber-50 text-amber-700 text-xs rounded-full capitalize"
+                          >
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div>
+                  <p className="text-sm text-text-secondary mb-4">
+                    {hasResume
+                      ? 'We could not score this role. Try again shortly.'
+                      : 'Create a resume to see how well you match this role.'}
+                  </p>
+                  <Link href="/dashboard">
+                    <Button className="w-full bg-primary-500 hover:bg-primary-600">Create a resume</Button>
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* CTA */}
             <div className="bg-primary-50 rounded-xl border border-primary-200 p-6">
               <h3 className="font-semibold text-primary-900 mb-2">Stand Out from Other Applicants</h3>
               <p className="text-primary-700 text-sm mb-4">
-                Use ForgeCareerAI to optimize your resume specifically for this position and increase your chances of getting an interview.
+                Tailor your resume specifically for this position and beat the ATS before a human ever sees it.
               </p>
-              <Link href="/dashboard/new">
-                <Button className="w-full bg-primary-500 hover:bg-primary-600">
-                  Optimize My Resume
-                </Button>
+              <Link href={optimizeHref}>
+                <Button className="w-full bg-primary-500 hover:bg-primary-600">Tailor My Resume</Button>
               </Link>
             </div>
           </div>
