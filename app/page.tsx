@@ -5,7 +5,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { LandingHeader } from '@/components/landing-header'
 import { Footer } from '@/components/footer'
 import { CompanyLogos } from '@/components/company-logos'
-import { BeforeAfterDemo } from '@/components/before-after-demo'
 import { FAQ } from '@/components/faq'
 import { AnimatedStats } from '@/components/animated-stats'
 import { PricingSection } from '@/components/pricing-section'
@@ -222,9 +221,6 @@ export default function LandingPage() {
         {/* Company Logos */}
         <CompanyLogos />
       </section>
-
-      {/* Before/After Demo */}
-      <BeforeAfterDemo />
 
       {/* How It Works */}
       <section id="how-it-works" className="py-24 px-4 bg-surface">
