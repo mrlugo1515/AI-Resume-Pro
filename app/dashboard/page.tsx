@@ -41,8 +41,8 @@ export default async function DashboardPage() {
       label: 'Applications',
       value: jobStats.applicationsCount.toString(),
       icon: FileCheck,
-      color: 'text-purple-600',
-      bg: 'bg-purple-50',
+      color: 'text-primary-600',
+      bg: 'bg-primary-50',
       trend: jobStats.savedCount > 0 ? `${jobStats.savedCount} saved` : null,
       trendUp: true,
     },
@@ -50,8 +50,8 @@ export default async function DashboardPage() {
       label: 'Avg ATS Score',
       value: stats.avgAtsScore !== null ? `${stats.avgAtsScore}%` : '-',
       icon: TrendingUp,
-      color: 'text-green-600',
-      bg: 'bg-green-50',
+      color: 'text-accent-600',
+      bg: 'bg-accent-50',
       trend: stats.bestAtsScore !== null ? `best ${stats.bestAtsScore}%` : null,
       trendUp: true,
     },
@@ -176,44 +176,44 @@ export default async function DashboardPage() {
                   </div>
                 </Link>
                 <Link href="/jobs/post" className="group">
-                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-green-50 hover:border-green-200 transition-all">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-accent-50 hover:border-accent-200 transition-all">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
-                        <Search className="w-5 h-5 text-green-600" />
+                      <div className="w-10 h-10 rounded-lg bg-accent-100 flex items-center justify-center group-hover:bg-accent-200 transition-colors">
+                        <Search className="w-5 h-5 text-accent-600" />
                       </div>
                       <div className="flex-1">
                         <p className="font-medium text-text-primary text-sm">Post a Job</p>
                         <p className="text-xs text-text-muted">Find qualified candidates</p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-green-600 transition-colors" />
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-accent-600 transition-colors" />
                     </div>
                   </div>
                 </Link>
                 <Link href="/dashboard/saved-jobs" className="group">
-                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-amber-50 hover:border-amber-200 transition-all">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-primary-50 hover:border-primary-200 transition-all">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center group-hover:bg-amber-200 transition-colors">
-                        <Bookmark className="w-5 h-5 text-amber-600" />
+                      <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center group-hover:bg-primary-200 transition-colors">
+                        <Bookmark className="w-5 h-5 text-primary-600" />
                       </div>
                       <div className="flex-1">
                         <p className="font-medium text-text-primary text-sm">Saved Jobs</p>
                         <p className="text-xs text-text-muted">Jobs you bookmarked</p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-amber-600 transition-colors" />
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-primary-600 transition-colors" />
                     </div>
                   </div>
                 </Link>
                 <Link href="/dashboard/applications" className="group">
-                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-purple-50 hover:border-purple-200 transition-all">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-accent-50 hover:border-accent-200 transition-all">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                        <FileCheck className="w-5 h-5 text-purple-600" />
+                      <div className="w-10 h-10 rounded-lg bg-accent-100 flex items-center justify-center group-hover:bg-accent-200 transition-colors">
+                        <FileCheck className="w-5 h-5 text-accent-600" />
                       </div>
                       <div className="flex-1">
                         <p className="font-medium text-text-primary text-sm">My Applications</p>
                         <p className="text-xs text-text-muted">Track your progress</p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-purple-600 transition-colors" />
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-accent-600 transition-colors" />
                     </div>
                   </div>
                 </Link>
