@@ -204,8 +204,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                <Target className="w-5 h-5 text-green-600" />
+              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                <Target className="w-5 h-5 text-primary-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">ATS Score</p>
@@ -217,8 +217,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
-                <FileText className="w-5 h-5 text-primary-600" />
+              <div className="w-10 h-10 rounded-lg bg-accent-100 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-accent-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">Characters</p>
@@ -232,8 +232,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-purple-600" />
+              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-primary-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">Status</p>
