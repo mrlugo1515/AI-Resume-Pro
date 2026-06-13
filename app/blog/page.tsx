@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { LandingHeader } from '@/components/landing-header'
 import { Footer } from '@/components/footer'
+import { BlogList } from '@/components/blog-list'
 import { getFeaturedPost, getNonFeaturedPosts } from '@/lib/blog-data'
 
 export const metadata = {
@@ -111,56 +112,7 @@ export default function BlogPage() {
       {/* Blog Grid */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <h2 className="text-2xl font-bold text-text-primary">Latest Articles</h2>
-            <div className="flex gap-2">
-              {['All', 'Resume Tips', 'Job Search', 'Career Advice'].map((cat) => (
-                <button 
-                  key={cat}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    cat === 'All' 
-                      ? 'bg-primary-600 text-white' 
-                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogPosts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}>
-                <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden h-full">
-                  <CardContent className="p-0">
-                    <div className="h-40 bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center group-hover:from-primary-50 group-hover:to-primary-100 transition-colors">
-                      <FileText className="w-12 h-12 text-zinc-400 group-hover:text-primary-500 transition-colors" />
-                    </div>
-                    <div className="p-6">
-                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${categoryColors[post.category]}`}>
-                        {post.category}
-                      </span>
-                      <h3 className="font-semibold text-text-primary mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
-                        {post.title}
-                      </h3>
-                      <p className="text-sm text-text-secondary mb-4 line-clamp-2">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center gap-4 text-xs text-text-muted">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="w-3 h-3" /> {post.date}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" /> {post.readTime}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+          <BlogList posts={blogPosts} />
         </div>
       </section>
 

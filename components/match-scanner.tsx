@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import Link from 'next/link'
 import { useDropzone } from 'react-dropzone'
 import {
   Upload, FileText, Sparkles, Check, Loader2, X, ArrowLeft,
@@ -390,6 +391,13 @@ export function MatchScanner() {
   return (
     <div className="space-y-6">
       <div>
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors mb-3"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Dashboard
+        </Link>
         <h1 className="text-2xl font-bold text-text-primary flex items-center gap-2">
           <Target className="w-6 h-6 text-primary-600" />
           Job Match Scanner
