@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { FileText, Plus, Clock, Download, TrendingUp, Target, Zap, Eye, ArrowUpRight, Calendar, BarChart3, Briefcase, Search, Bookmark, FileCheck } from 'lucide-react'
@@ -8,13 +9,16 @@ import { DashboardHeader } from '@/components/dashboard-header'
 import { getResumes, getResumeStats } from '@/app/actions/resume'
 import { getJobStats } from '@/app/actions/jobs'
 import { ResumeActions } from '@/components/resume-actions'
-import { RecommendedJobs } from '@/components/recommended-jobs'
+import { RecommendedJobs, RecommendedJobsSkeleton } from '@/components/recommended-jobs'
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({ headers: await headers() })
-  const resumes = await getResumes()
-  const stats = await getResumeStats()
-  const jobStats = await getJobStats()
+  // Run the independent dashboard queries concurrently instead of sequentially.
+  const [resumes, stats, jobStats] = await Promise.all([
+    getResumes(),
+    getResumeStats(),
+    getJobStats(),
+  ])
 
   const monthTrend = stats.thisMonth - stats.lastMonth
 
@@ -250,8 +254,11 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Recommended Jobs feed */}
-            <RecommendedJobs />
+            {/* Recommended Jobs feed — streamed so the slow external jobs
+                API never blocks the rest of the dashboard. */}
+            <Suspense fallback={<RecommendedJobsSkeleton />}>
+              <RecommendedJobs />
+            </Suspense>
           </div>
         </div>
 

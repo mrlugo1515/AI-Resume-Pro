@@ -5,6 +5,37 @@ import { Button } from '@/components/ui/button'
 import { getMatchedJobs } from '@/app/actions/external-jobs'
 import { MatchRing } from '@/components/match-ring'
 
+// Lightweight placeholder shown while the live jobs feed loads. Keeps the
+// dashboard interactive instead of blocking on the external jobs API.
+export function RecommendedJobsSkeleton() {
+  return (
+    <Card>
+      <CardContent className="pt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-text-primary flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-accent-500" />
+            Recommended For You
+          </h3>
+        </div>
+        <div className="space-y-2" aria-hidden="true">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="rounded-xl border border-border bg-surface p-3">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-lg bg-surface-alt animate-pulse flex-shrink-0" />
+                <div className="flex-1 min-w-0 space-y-2">
+                  <div className="h-3 w-3/4 rounded bg-surface-alt animate-pulse" />
+                  <div className="h-2.5 w-1/2 rounded bg-surface-alt animate-pulse" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <span className="sr-only">Loading recommended jobs…</span>
+      </CardContent>
+    </Card>
+  )
+}
+
 // Server component: recommends the user's best-matching jobs based on their resume.
 export async function RecommendedJobs() {
   const { jobs, hasResume } = await getMatchedJobs({})
