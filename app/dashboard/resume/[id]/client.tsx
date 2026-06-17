@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ResumePreview } from '@/components/resume-preview'
 import { ResumeEditor } from '@/components/resume-editor'
+import { PaywallDialog } from '@/components/paywall-dialog'
 
 interface ResumeData {
   id: number
@@ -40,6 +41,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
   const [coverLetter, setCoverLetter] = useState('')
   const [generatingCL, setGeneratingCL] = useState(false)
   const [clError, setClError] = useState('')
+  const [showPaywall, setShowPaywall] = useState(false)
+  const [paywallMessage, setPaywallMessage] = useState<string | undefined>(undefined)
 
   // Parse structured feedback safely
   let improvements: Improvement[] = []
@@ -109,6 +112,13 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         }),
       })
 
+      if (response.status === 402) {
+        const data = await response.json()
+        setPaywallMessage(data.message || 'Upgrade to Pro for unlimited cover letters.')
+        setShowPaywall(true)
+        return
+      }
+
       if (!response.ok) {
         throw new Error('Failed to generate cover letter')
       }
@@ -134,6 +144,11 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
 
   return (
     <div className="space-y-6">
+      <PaywallDialog
+        open={showPaywall}
+        onOpenChange={setShowPaywall}
+        message={paywallMessage}
+      />
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>

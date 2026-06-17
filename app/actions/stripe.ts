@@ -13,8 +13,8 @@ export async function startCheckoutSession(productId: string) {
     throw new Error(`Product with id "${productId}" not found`)
   }
 
-  const session = await auth.api.getSession({ headers: await headers() })
-  const userId = session?.user?.id ?? ''
+  const authSession = await auth.api.getSession({ headers: await headers() })
+  const userId = authSession?.user?.id ?? ''
 
   const params: Stripe.Checkout.SessionCreateParams = {
     ui_mode: 'embedded' as Stripe.Checkout.SessionCreateParams.UiMode,
