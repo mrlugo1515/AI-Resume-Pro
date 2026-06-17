@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Progress } from '@/components/ui/progress'
+import { PaywallDialog } from '@/components/paywall-dialog'
 
 interface UploadedFile {
   pathname: string
@@ -47,6 +48,8 @@ export function MatchScanner() {
   const [inputMode, setInputMode] = useState<'upload' | 'paste'>('upload')
   const [result, setResult] = useState<MatchResult | null>(null)
   const [copied, setCopied] = useState(false)
+  const [showPaywall, setShowPaywall] = useState(false)
+  const [paywallMessage, setPaywallMessage] = useState<string | undefined>(undefined)
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
@@ -153,6 +156,15 @@ export function MatchScanner() {
       })
 
       clearInterval(progressInterval)
+
+      if (res.status === 402) {
+        const data = await res.json()
+        setIsScanning(false)
+        setProgress(0)
+        setPaywallMessage(data.message || 'Upgrade to Pro for unlimited match scans.')
+        setShowPaywall(true)
+        return
+      }
 
       if (!res.ok) {
         const data = await res.json()
@@ -390,6 +402,11 @@ export function MatchScanner() {
   // Input state
   return (
     <div className="space-y-6">
+      <PaywallDialog
+        open={showPaywall}
+        onOpenChange={setShowPaywall}
+        message={paywallMessage}
+      />
       <div>
         <Link
           href="/dashboard"
