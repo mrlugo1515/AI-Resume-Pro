@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import {
   EmbeddedCheckout,
   EmbeddedCheckoutProvider,
@@ -8,7 +8,7 @@ import {
 import { loadStripe } from '@stripe/stripe-js'
 import { X } from 'lucide-react'
 
-import { startCheckoutSession } from '@/app/actions/stripe'
+import { startCheckoutSession, getCheckoutSessionStatus } from '@/app/actions/stripe'
 import { Button } from '@/components/ui/button'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
@@ -16,16 +16,26 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 interface CheckoutProps {
   productId: string
   onClose?: () => void
+  onSuccess?: () => void
 }
 
-export function Checkout({ productId, onClose }: CheckoutProps) {
-  const fetchClientSecret = useCallback(
-    async () => {
-      const secret = await startCheckoutSession(productId)
-      return secret ?? ''
-    },
-    [productId]
-  )
+export function Checkout({ productId, onClose, onSuccess }: CheckoutProps) {
+  const sessionIdRef = useRef<string | null>(null)
+
+  const fetchClientSecret = useCallback(async () => {
+    const secret = await startCheckoutSession(productId)
+    // The session id is the part of the client secret before "_secret_".
+    sessionIdRef.current = secret ? secret.split('_secret_')[0] : null
+    return secret ?? ''
+  }, [productId])
+
+  const handleComplete = useCallback(async () => {
+    if (sessionIdRef.current) {
+      // Confirms payment server-side and grants Pro access.
+      await getCheckoutSessionStatus(sessionIdRef.current)
+    }
+    onSuccess?.()
+  }, [onSuccess])
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
@@ -41,7 +51,7 @@ export function Checkout({ productId, onClose }: CheckoutProps) {
         <div id="checkout" className="p-6">
           <EmbeddedCheckoutProvider
             stripe={stripePromise}
-            options={{ fetchClientSecret }}
+            options={{ fetchClientSecret, onComplete: handleComplete }}
           >
             <EmbeddedCheckout />
           </EmbeddedCheckoutProvider>
@@ -56,9 +66,10 @@ interface CheckoutButtonProps {
   children: React.ReactNode
   className?: string
   variant?: 'default' | 'outline' | 'ghost'
+  onSuccess?: () => void
 }
 
-export function CheckoutButton({ productId, children, className, variant = 'default' }: CheckoutButtonProps) {
+export function CheckoutButton({ productId, children, className, variant = 'default', onSuccess }: CheckoutButtonProps) {
   const [showCheckout, setShowCheckout] = useState(false)
 
   return (
@@ -74,6 +85,7 @@ export function CheckoutButton({ productId, children, className, variant = 'defa
         <Checkout 
           productId={productId} 
           onClose={() => setShowCheckout(false)} 
+          onSuccess={onSuccess}
         />
       )}
     </>

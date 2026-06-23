@@ -3,6 +3,7 @@ import { generateObject } from 'ai'
 import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
+import { checkAccess, recordUsage } from '@/lib/entitlements'
 
 const matchSchema = z.object({
   matchScore: z
@@ -55,6 +56,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const access = await checkAccess(session.user.id, 'match_scan')
+    if (!access.allowed) {
+      return NextResponse.json(
+        {
+          error: 'paywall',
+          action: 'match_scan',
+          used: access.used,
+          limit: access.limit,
+          message: `You've used your ${access.limit} free match scan${access.limit === 1 ? '' : 's'}. Upgrade to Pro for unlimited scans and cover letters.`,
+        },
+        { status: 402 }
+      )
+    }
+
     const systemPrompt = `You are an expert career coach, recruiter, and ATS (Applicant Tracking System) specialist. You analyze how well a candidate's resume matches a specific job description and produce honest, actionable guidance.
 
 Be realistic and critical when scoring:
@@ -82,6 +97,10 @@ Analyze the match between this resume and this job, then produce the structured 
       system: systemPrompt,
       prompt: userPrompt,
     })
+
+    if (access.plan === 'free') {
+      await recordUsage(session.user.id, 'match_scan')
+    }
 
     return NextResponse.json({
       ...object,

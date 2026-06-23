@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ResumePreview } from '@/components/resume-preview'
 import { ResumeEditor } from '@/components/resume-editor'
+import { PaywallDialog } from '@/components/paywall-dialog'
 
 interface ResumeData {
   id: number
@@ -40,6 +41,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
   const [coverLetter, setCoverLetter] = useState('')
   const [generatingCL, setGeneratingCL] = useState(false)
   const [clError, setClError] = useState('')
+  const [showPaywall, setShowPaywall] = useState(false)
+  const [paywallMessage, setPaywallMessage] = useState<string | undefined>(undefined)
 
   // Parse structured feedback safely
   let improvements: Improvement[] = []
@@ -109,6 +112,13 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         }),
       })
 
+      if (response.status === 402) {
+        const data = await response.json()
+        setPaywallMessage(data.message || 'Upgrade to Pro for unlimited cover letters.')
+        setShowPaywall(true)
+        return
+      }
+
       if (!response.ok) {
         throw new Error('Failed to generate cover letter')
       }
@@ -134,6 +144,11 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
 
   return (
     <div className="space-y-6">
+      <PaywallDialog
+        open={showPaywall}
+        onOpenChange={setShowPaywall}
+        message={paywallMessage}
+      />
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -204,8 +219,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
-                <Target className="w-5 h-5 text-green-600" />
+              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                <Target className="w-5 h-5 text-primary-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">ATS Score</p>
@@ -217,8 +232,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
-                <FileText className="w-5 h-5 text-primary-600" />
+              <div className="w-10 h-10 rounded-lg bg-accent-100 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-accent-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">Characters</p>
@@ -232,8 +247,8 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-purple-600" />
+              <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-primary-600" />
               </div>
               <div>
                 <p className="text-sm text-text-secondary">Status</p>

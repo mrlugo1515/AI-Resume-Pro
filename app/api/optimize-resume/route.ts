@@ -5,6 +5,7 @@ import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { db } from '@/lib/db'
 import { resume } from '@/lib/db/schema'
+import { checkAccess, recordUsage } from '@/lib/entitlements'
 
 const optimizationSchema = z.object({
   optimizedContent: z
@@ -42,6 +43,20 @@ export async function POST(request: NextRequest) {
 
     if (!content) {
       return NextResponse.json({ error: 'Resume content is required' }, { status: 400 })
+    }
+
+    const access = await checkAccess(session.user.id, 'optimize')
+    if (!access.allowed) {
+      return NextResponse.json(
+        {
+          error: 'paywall',
+          action: 'optimize',
+          used: access.used,
+          limit: access.limit,
+          message: `You've used your ${access.limit} free resume optimization${access.limit === 1 ? '' : 's'}. Upgrade to Pro for unlimited optimizations.`,
+        },
+        { status: 402 }
+      )
     }
 
     const systemPrompt = `You are a world-class resume writer, career coach, and ATS (Applicant Tracking System) expert who has helped thousands of candidates land interviews at top companies.
@@ -85,6 +100,10 @@ When scoring ATS compatibility, be realistic and critical — most unoptimized r
         status: 'completed',
       })
       .returning()
+
+    if (access.plan === 'free') {
+      await recordUsage(session.user.id, 'optimize')
+    }
 
     return NextResponse.json({
       id: newResume.id,

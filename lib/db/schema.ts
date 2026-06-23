@@ -116,3 +116,26 @@ export const savedJob = pgTable('saved_job', {
   userId: text('userId').notNull(),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
+
+// --- Monetization tables ---------------------------------------------------
+
+// One row per user describing their access level.
+// plan: 'free' (default) | 'pro' (unlimited AI after purchase)
+export const entitlement = pgTable('entitlement', {
+  id: serial('id').primaryKey(),
+  userId: text('userId').notNull().unique(),
+  plan: text('plan').notNull().default('free'),
+  stripeCustomerId: text('stripeCustomerId'),
+  lastProductId: text('lastProductId'),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+})
+
+// One row per metered AI action, used to enforce free-tier limits.
+// action: 'optimize' | 'match_scan' | 'cover_letter'
+export const usageEvent = pgTable('usage_event', {
+  id: serial('id').primaryKey(),
+  userId: text('userId').notNull(),
+  action: text('action').notNull(),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+})

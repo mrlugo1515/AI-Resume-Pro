@@ -109,14 +109,25 @@ async function fetchFromJSearch(filters: ExternalJobFilters): Promise<ExternalJo
     if (map[filters.jobType]) params.set('employment_types', map[filters.jobType])
   }
 
-  const res = await fetch(`https://jsearch.p.rapidapi.com/search?${params.toString()}`, {
-    headers: {
-      'X-RapidAPI-Key': process.env.RAPIDAPI_KEY as string,
-      'X-RapidAPI-Host': 'jsearch.p.rapidapi.com',
-    },
-    // Next.js fetch caching as a second layer.
-    next: { revalidate: 1800 },
-  })
+  // Bound the external call so a slow upstream never hangs the request;
+  // on timeout we throw and the caller falls back to sample jobs.
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 6000)
+
+  let res: Response
+  try {
+    res = await fetch(`https://jsearch.p.rapidapi.com/search?${params.toString()}`, {
+      headers: {
+        'X-RapidAPI-Key': process.env.RAPIDAPI_KEY as string,
+        'X-RapidAPI-Host': 'jsearch.p.rapidapi.com',
+      },
+      signal: controller.signal,
+      // Next.js fetch caching as a second layer.
+      next: { revalidate: 1800 },
+    })
+  } finally {
+    clearTimeout(timeout)
+  }
 
   if (!res.ok) {
     throw new Error(`JSearch request failed: ${res.status}`)

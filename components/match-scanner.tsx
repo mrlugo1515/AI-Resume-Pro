@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import Link from 'next/link'
 import { useDropzone } from 'react-dropzone'
 import {
   Upload, FileText, Sparkles, Check, Loader2, X, ArrowLeft,
@@ -11,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Progress } from '@/components/ui/progress'
+import { PaywallDialog } from '@/components/paywall-dialog'
 
 interface UploadedFile {
   pathname: string
@@ -46,6 +48,8 @@ export function MatchScanner() {
   const [inputMode, setInputMode] = useState<'upload' | 'paste'>('upload')
   const [result, setResult] = useState<MatchResult | null>(null)
   const [copied, setCopied] = useState(false)
+  const [showPaywall, setShowPaywall] = useState(false)
+  const [paywallMessage, setPaywallMessage] = useState<string | undefined>(undefined)
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
@@ -152,6 +156,15 @@ export function MatchScanner() {
       })
 
       clearInterval(progressInterval)
+
+      if (res.status === 402) {
+        const data = await res.json()
+        setIsScanning(false)
+        setProgress(0)
+        setPaywallMessage(data.message || 'Upgrade to Pro for unlimited match scans.')
+        setShowPaywall(true)
+        return
+      }
 
       if (!res.ok) {
         const data = await res.json()
@@ -389,7 +402,19 @@ export function MatchScanner() {
   // Input state
   return (
     <div className="space-y-6">
+      <PaywallDialog
+        open={showPaywall}
+        onOpenChange={setShowPaywall}
+        message={paywallMessage}
+      />
       <div>
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors mb-3"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Dashboard
+        </Link>
         <h1 className="text-2xl font-bold text-text-primary flex items-center gap-2">
           <Target className="w-6 h-6 text-primary-600" />
           Job Match Scanner

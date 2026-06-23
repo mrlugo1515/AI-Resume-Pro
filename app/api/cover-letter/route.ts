@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { generateText } from 'ai'
 import { auth } from '@/lib/auth'
+import { checkAccess, recordUsage } from '@/lib/entitlements'
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,6 +18,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
+      )
+    }
+
+    const access = await checkAccess(session.user.id, 'cover_letter')
+    if (!access.allowed) {
+      return NextResponse.json(
+        {
+          error: 'paywall',
+          action: 'cover_letter',
+          used: access.used,
+          limit: access.limit,
+          message: `You've used your ${access.limit} free cover letter${access.limit === 1 ? '' : 's'}. Upgrade to Pro for unlimited cover letters.`,
+        },
+        { status: 402 }
       )
     }
 
@@ -45,6 +60,10 @@ Return only the cover letter text, starting with the greeting (e.g., "Dear Hirin
       prompt,
       maxOutputTokens: 2000,
     })
+
+    if (access.plan === 'free') {
+      await recordUsage(session.user.id, 'cover_letter')
+    }
 
     return NextResponse.json({ coverLetter })
   } catch (error) {

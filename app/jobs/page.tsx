@@ -4,6 +4,13 @@ import { useState, useEffect, useTransition } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { getMatchedJobs, type MatchedJob } from '@/app/actions/external-jobs'
 import { type ExternalJobFilters } from '@/lib/jobs-api'
 import { MatchRing } from '@/components/match-ring'
@@ -13,7 +20,6 @@ import {
   Building2,
   DollarSign,
   Briefcase,
-  Filter,
   X,
   Sparkles,
   Radio,
@@ -200,43 +206,46 @@ export default function JobsPage() {
         )}
 
         {/* Filter Bar */}
-        <div className="flex flex-wrap items-center gap-4 mb-6">
-          <Button variant="outline" className="gap-2" disabled>
-            <Filter className="w-4 h-4" />
-            Filters
-          </Button>
-
-          <select
-            value={filters.locationType}
-            onChange={(e) => {
-              const newFilters = { ...filters, locationType: e.target.value }
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <Select
+            value={filters.locationType || 'all'}
+            onValueChange={(value) => {
+              const newFilters = { ...filters, locationType: value === 'all' ? '' : value }
               setFilters(newFilters)
               loadJobs(newFilters)
             }}
-            className="px-4 py-2 rounded-lg border border-border bg-background text-sm"
           >
-            {locationTypes.map((type) => (
-              <option key={type.value} value={type.value}>
-                {type.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-44 bg-surface">
+              <SelectValue placeholder="All Locations" />
+            </SelectTrigger>
+            <SelectContent>
+              {locationTypes.map((type) => (
+                <SelectItem key={type.value} value={type.value || 'all'}>
+                  {type.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-          <select
-            value={filters.jobType}
-            onChange={(e) => {
-              const newFilters = { ...filters, jobType: e.target.value }
+          <Select
+            value={filters.jobType || 'all'}
+            onValueChange={(value) => {
+              const newFilters = { ...filters, jobType: value === 'all' ? '' : value }
               setFilters(newFilters)
               loadJobs(newFilters)
             }}
-            className="px-4 py-2 rounded-lg border border-border bg-background text-sm"
           >
-            {jobTypes.map((type) => (
-              <option key={type.value} value={type.value}>
-                {type.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-40 bg-surface">
+              <SelectValue placeholder="All Types" />
+            </SelectTrigger>
+            <SelectContent>
+              {jobTypes.map((type) => (
+                <SelectItem key={type.value} value={type.value || 'all'}>
+                  {type.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
           {(filters.search || filters.location || filters.locationType || filters.jobType) && (
             <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1 text-text-secondary">
