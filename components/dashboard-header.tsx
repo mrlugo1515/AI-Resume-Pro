@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Sparkles, User, LogOut, Briefcase, Target } from 'lucide-react'
+import { Sparkles, User, LogOut, Briefcase, Target, LayoutDashboard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -72,6 +72,29 @@ export function DashboardHeader() {
                 </p>
               </div>
               <DropdownMenuSeparator />
+              {/* Primary navigation — surfaced here on mobile where the
+                  inline header links are hidden. */}
+              <div className="sm:hidden">
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard" className="cursor-pointer">
+                    <LayoutDashboard className="w-4 h-4 mr-2" />
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/match-scan" className="cursor-pointer">
+                    <Target className="w-4 h-4 mr-2" />
+                    Match Scanner
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/jobs" className="cursor-pointer">
+                    <Briefcase className="w-4 h-4 mr-2" />
+                    Job Board
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </div>
               <DropdownMenuItem asChild>
                 <Link href="/dashboard/account" className="cursor-pointer">
                   <User className="w-4 h-4 mr-2" />
