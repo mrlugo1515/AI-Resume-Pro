@@ -75,14 +75,21 @@ const TEMPLATES: Record<ResumeTemplate, TemplateStyles> = {
   },
 }
 
-// Strip surrounding markdown markers from a whole line (e.g. **EXPERIENCE** -> EXPERIENCE)
+// Strip surrounding markdown markers from a whole line so headings/names render
+// cleanly (e.g. "### Jordan Lee" -> "Jordan Lee", "**EXPERIENCE**" -> "EXPERIENCE")
 function stripWrappingMarkers(text: string): string {
-  return text.replace(/^\s*\*{1,3}\s*/, '').replace(/\s*\*{1,3}\s*$/, '').trim()
+  return text
+    .replace(/^\s*#{1,6}\s*/, '') // leading markdown heading hashes
+    .replace(/^\s*\*{1,3}\s*/, '')
+    .replace(/\s*\*{1,3}\s*$/, '')
+    .trim()
 }
 
-// Render inline markdown (**bold** and *italic*) into React nodes
+// Render inline markdown (**bold**, *italic*, and [label](url) links) into React nodes
 function renderInline(text: string, strongClass: string): ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).filter(Boolean)
+  const parts = text
+    .split(/(\*\*[^*]+\*\*|\*[^*]+\*|\[[^\]]+\]\([^)]+\))/g)
+    .filter(Boolean)
   return parts.map((part, i) => {
     if (/^\*\*[^*]+\*\*$/.test(part)) {
       return (
@@ -96,6 +103,20 @@ function renderInline(text: string, strongClass: string): ReactNode {
         <em key={i} className="text-zinc-600">
           {part.slice(1, -1)}
         </em>
+      )
+    }
+    const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+    if (link) {
+      return (
+        <a
+          key={i}
+          href={link[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-600 hover:underline print:text-inherit print:no-underline"
+        >
+          {link[1]}
+        </a>
       )
     }
     return <Fragment key={i}>{part}</Fragment>
@@ -249,7 +270,7 @@ export function ResumeDocument({ content, template = 'classic' }: ResumeDocument
   const s = TEMPLATES[template] ?? TEMPLATES.classic
 
   return (
-    <div className="bg-white rounded-lg border border-border shadow-sm overflow-hidden">
+    <div className="bg-white rounded-lg border border-border shadow-sm overflow-hidden print:rounded-none print:border-0 print:shadow-none">
       <div className={`mx-auto max-w-3xl ${s.container} ${s.fontClass}`}>
         {lines.map((line, i) => {
           switch (line.type) {
@@ -262,7 +283,7 @@ export function ResumeDocument({ content, template = 'classic' }: ResumeDocument
             case 'contact':
               return (
                 <p key={i} className={s.contact}>
-                  {line.text}
+                  {renderInline(line.text, s.strong)}
                 </p>
               )
             case 'heading':
@@ -273,13 +294,13 @@ export function ResumeDocument({ content, template = 'classic' }: ResumeDocument
               )
             case 'subheading':
               return (
-                <p key={i} className={s.subheading}>
+                <p key={i} className={`resume-subheading ${s.subheading}`}>
                   {renderInline(line.text, s.strong)}
                 </p>
               )
             case 'bullet':
               return (
-                <div key={i} className="flex gap-2.5 mt-1.5 pl-1">
+                <div key={i} className="resume-bullet flex gap-2.5 mt-1.5 pl-1">
                   <span className={s.bulletDot} />
                   <span className={s.bulletText}>{renderInline(line.text, s.strong)}</span>
                 </div>

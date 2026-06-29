@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { MoreVertical, Download, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +17,7 @@ interface ResumeActionsProps {
 }
 
 export function ResumeActions({ resumeId }: ResumeActionsProps) {
+  const router = useRouter()
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
@@ -38,9 +40,12 @@ export function ResumeActions({ resumeId }: ResumeActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => router.push(`/dashboard/resume/${resumeId}`)}
+        >
           <Download className="w-4 h-4 mr-2" />
-          Download
+          Open &amp; Download
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={handleDelete} 

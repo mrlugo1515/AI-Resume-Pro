@@ -10,8 +10,17 @@ const TEMPLATE_OPTIONS: { id: ResumeTemplate; name: string; description: string 
   { id: 'minimal', name: 'Minimal', description: 'Clean, understated spacing' },
 ]
 
-export function ResumePreview({ content }: { content: string }) {
-  const [template, setTemplate] = useState<ResumeTemplate>('classic')
+interface ResumePreviewProps {
+  content: string
+  /** When provided, the template selection is controlled by the parent. */
+  template?: ResumeTemplate
+  onTemplateChange?: (template: ResumeTemplate) => void
+}
+
+export function ResumePreview({ content, template: templateProp, onTemplateChange }: ResumePreviewProps) {
+  const [internalTemplate, setInternalTemplate] = useState<ResumeTemplate>('classic')
+  const template = templateProp ?? internalTemplate
+  const setTemplate = onTemplateChange ?? setInternalTemplate
 
   return (
     <div className="space-y-4">

@@ -2,13 +2,20 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Copy, Check, Download, FileText, Sparkles, Target, Clock, ChevronDown, ChevronUp, Loader2, CheckCircle2, Tag, AlertCircle, Wand2, Eye } from 'lucide-react'
+import { ArrowLeft, Copy, Check, Download, FileText, Sparkles, Target, Clock, ChevronDown, ChevronUp, Loader2, CheckCircle2, Tag, AlertCircle, Wand2, Eye, FileDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { ResumePreview } from '@/components/resume-preview'
+import { ResumeDocument, type ResumeTemplate } from '@/components/resume-document'
 import { ResumeEditor } from '@/components/resume-editor'
 import { PaywallDialog } from '@/components/paywall-dialog'
 
@@ -33,6 +40,7 @@ interface Improvement {
 
 export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
   const [mode, setMode] = useState<'view' | 'edit'>('view')
+  const [template, setTemplate] = useState<ResumeTemplate>('classic')
   const [copied, setCopied] = useState(false)
   const [showOriginal, setShowOriginal] = useState(false)
   const [showRawText, setShowRawText] = useState(false)
@@ -69,6 +77,7 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
     text
       .replace(/^\s*#{1,6}\s+/gm, '')
       .replace(/^\s*([-*_]\s?){3,}\s*$/gm, '')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1')
       .replace(/\*\*([^*]+)\*\*/g, '$1')
       .replace(/\*([^*]+)\*/g, '$1')
       .replace(/^[\t ]*[-*+]\s+/gm, '• ')
@@ -81,7 +90,7 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
     }
   }
 
-  const handleDownload = () => {
+  const handleDownloadText = () => {
     if (resume.optimizedContent) {
       const blob = new Blob([toPlainText(resume.optimizedContent)], { type: 'text/plain' })
       const url = URL.createObjectURL(blob)
@@ -93,6 +102,24 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
     }
+  }
+
+  // Export a crisp, selectable PDF via the browser's native print engine.
+  // The hidden #resume-print-area renders the resume in the selected template,
+  // and globals.css print rules hide everything else so only it lands on the page.
+  const handleDownloadPdf = () => {
+    if (!resume.optimizedContent) return
+    const previousTitle = document.title
+    // The print/PDF dialog uses document.title as the default filename.
+    document.title = `${resume.title.replace(/[^\w\s-]/g, '').trim() || 'Resume'} — Optimized Resume`
+    const restore = () => {
+      document.title = previousTitle
+      window.removeEventListener('afterprint', restore)
+    }
+    window.addEventListener('afterprint', restore)
+    window.print()
+    // Fallback in case afterprint doesn't fire (some browsers/iframes)
+    setTimeout(restore, 1000)
   }
 
   const handleGenerateCoverLetter = async () => {
@@ -149,6 +176,14 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
         onOpenChange={setShowPaywall}
         message={paywallMessage}
       />
+      {/* Print-only region. Hidden on screen; globals.css print rules reveal
+          only this element so "Download PDF" produces a clean, template-matched
+          document with crisp, selectable text. */}
+      {resume.optimizedContent && (
+        <div id="resume-print-area" className="hidden print:block">
+          <ResumeDocument content={resume.optimizedContent} template={template} />
+        </div>
+      )}
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -195,10 +230,31 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
             {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
             {copied ? 'Copied!' : 'Copy'}
           </Button>
-          <Button variant="outline" size="sm" onClick={handleDownload}>
-            <Download className="w-4 h-4 mr-2" />
-            Download
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="default" size="sm" disabled={!resume.optimizedContent}>
+                <Download className="w-4 h-4 mr-2" />
+                Download
+                <ChevronDown className="w-4 h-4 ml-1.5 opacity-80" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuItem onClick={handleDownloadPdf} className="cursor-pointer">
+                <FileDown className="w-4 h-4 mr-2 text-primary-600" />
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">Download PDF</span>
+                  <span className="text-xs text-text-muted">Print-ready, matches your template</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDownloadText} className="cursor-pointer">
+                <FileText className="w-4 h-4 mr-2 text-text-muted" />
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">Plain text (.txt)</span>
+                  <span className="text-xs text-text-muted">For copy-paste into forms</span>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -366,7 +422,11 @@ export function ResumeDetailClient({ resume }: { resume: ResumeData }) {
                 className="min-h-[400px] font-mono text-sm bg-muted"
               />
             ) : (
-              <ResumePreview content={resume.optimizedContent} />
+              <ResumePreview
+                content={resume.optimizedContent}
+                template={template}
+                onTemplateChange={setTemplate}
+              />
             )
           ) : (
             <p className="text-sm text-text-secondary py-8 text-center">

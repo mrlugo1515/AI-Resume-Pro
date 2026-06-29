@@ -368,3 +368,51 @@ html {
 .focus-ring {
   @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
 }
+
+/* ----------------------------------------------------------------------------
+   Print / Save-as-PDF
+   When printing, hide all app chrome and render only the dedicated resume
+   print region (#resume-print-area). Uses the browser's native print engine
+   so text stays vector-sharp, selectable, and ATS-parseable.
+---------------------------------------------------------------------------- */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  #resume-print-area,
+  #resume-print-area * {
+    visibility: visible !important;
+  }
+
+  #resume-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Preserve theme colors (section bars, accents, bullets) in the PDF */
+  #resume-print-area * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Keep related blocks from splitting awkwardly across pages */
+  #resume-print-area h1,
+  #resume-print-area h2 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  #resume-print-area .resume-subheading,
+  #resume-print-area .resume-bullet {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: letter;
+    margin: 0.6in;
+  }
+}
