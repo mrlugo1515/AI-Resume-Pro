@@ -17,17 +17,48 @@ export function PricingSection() {
             Simple, transparent pricing
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Pay per optimization. No subscriptions, no hidden fees.
+            Start free. Pay per optimization when you need more. No subscriptions, no hidden fees.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto items-stretch">
+          {/* Free plan — real entitlement tier (1 of each action, lifetime) */}
+          <Card className="relative flex flex-col transition-all duration-300 hover:shadow-xl hover:scale-[1.01]">
+            <CardContent className="flex flex-col flex-1 pt-8 pb-8">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-text-primary mb-2">Free</h3>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-4xl font-bold text-text-primary">$0</span>
+                  <span className="text-text-muted text-sm">forever</span>
+                </div>
+                <p className="text-sm text-text-secondary">Try it out — no credit card required.</p>
+              </div>
+              <ul className="space-y-3 mb-8 flex-1">
+                {[
+                  '1 resume optimization',
+                  '1 job match scan',
+                  '1 AI cover letter',
+                  'ATS compatibility check',
+                  'All templates & PDF export',
+                ].map((f) => (
+                  <li key={f} className="flex items-start gap-3 text-sm text-text-secondary">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Button asChild variant="outline" className="w-full mt-auto">
+                <Link href="/sign-up">Get Started Free</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
           {RESUME_PRODUCTS.map((plan) => (
             <Card
               key={plan.id}
-              className={`relative transition-all duration-300 hover:shadow-xl ${
+              className={`relative flex flex-col transition-all duration-300 hover:shadow-xl ${
                 plan.popular 
-                  ? 'ring-2 ring-primary-500 shadow-lg scale-[1.02]' 
+                  ? 'ring-2 ring-primary-500 shadow-lg' 
                   : 'hover:scale-[1.01]'
               }`}
             >
@@ -36,7 +67,7 @@ export function PricingSection() {
                   Most Popular
                 </div>
               )}
-              <CardContent className="pt-8 pb-8">
+              <CardContent className="flex flex-col flex-1 pt-8 pb-8">
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-text-primary mb-2">{plan.name}</h3>
                   <div className="flex items-baseline gap-1 mb-2">
@@ -45,7 +76,7 @@ export function PricingSection() {
                   </div>
                   <p className="text-sm text-text-secondary">{plan.description}</p>
                 </div>
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-3 text-sm text-text-secondary">
                       <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
@@ -55,7 +86,7 @@ export function PricingSection() {
                 </ul>
                 <CheckoutButton
                   productId={plan.id}
-                  className={`w-full ${plan.popular ? 'bg-primary-600 hover:bg-primary-700' : ''}`}
+                  className={`w-full mt-auto ${plan.popular ? 'bg-primary-600 hover:bg-primary-700' : ''}`}
                   variant={plan.popular ? 'default' : 'outline'}
                 >
                   Get Started
