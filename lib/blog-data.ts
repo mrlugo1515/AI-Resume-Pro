@@ -20,6 +20,294 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'marketing-manager-resume-example',
+    title: 'Marketing Manager Resume Example and Writing Guide (2026)',
+    excerpt:
+      'A complete breakdown of a strong marketing manager resume — the structure, skills, and metric-driven bullets that prove you can grow pipeline and lead campaigns.',
+    category: 'Job Search',
+    readTime: '8 min read',
+    date: 'Jun 9, 2026',
+    author: 'Career Team',
+    published: '2026-06-09',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Marketing roles are crowded, and hiring managers scan for one thing above all: proof that you can drive measurable growth. A strong marketing manager resume pairs strategic range — brand, demand generation, content, analytics — with hard numbers that show impact. This guide breaks down exactly what to include and how to phrase it.',
+      },
+      { type: 'heading', text: 'The structure that works' },
+      {
+        type: 'list',
+        items: [
+          'Header: name, email, phone, city, and links to LinkedIn and a portfolio or campaign samples.',
+          'Summary: two to three lines naming your specialty (demand gen, brand, growth) and a headline result.',
+          'Skills: channels, platforms, and tools — SEO/SEM, HubSpot, Google Analytics, paid social, marketing automation.',
+          'Experience: reverse-chronological roles with results-focused bullets.',
+          'Education and certifications: degree plus credentials like Google Ads or HubSpot.',
+        ],
+      },
+      { type: 'heading', text: 'Write bullets that prove growth' },
+      {
+        type: 'paragraph',
+        text: 'Marketing is one of the most measurable functions, so a resume without numbers reads as a red flag. Use the pattern [action] + [initiative] + [channel/tool] + [measurable result].',
+      },
+      {
+        type: 'quote',
+        text: 'Weak: "Responsible for managing social media accounts." Strong: "Grew organic social engagement 210% in 9 months and drove 1,800 marketing-qualified leads through a new LinkedIn content program."',
+      },
+      {
+        type: 'paragraph',
+        text: 'Anchor bullets in the metrics leaders care about: pipeline, MQLs, conversion rate, CAC, ROAS, revenue influenced, and growth percentages.',
+      },
+      { type: 'heading', text: 'Skills hiring managers look for' },
+      {
+        type: 'list',
+        items: [
+          'Demand generation and lead nurturing.',
+          'SEO/SEM and paid media (Google Ads, Meta, LinkedIn).',
+          'Marketing automation and CRM (HubSpot, Marketo, Salesforce).',
+          'Analytics and attribution (GA4, dashboards, A/B testing).',
+          'Content strategy and cross-functional campaign management.',
+        ],
+      },
+      { type: 'heading', text: 'Tailor it to the role' },
+      {
+        type: 'paragraph',
+        text: 'A demand-gen role wants pipeline and conversion metrics up top; a brand role wants awareness, positioning, and creative leadership. Mirror the job description\'s emphasis and lead with the achievement that matches it most closely.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Before you submit, run your resume through an ATS check to confirm it parses cleanly, then make your single strongest growth result impossible to miss.',
+      },
+    ],
+  },
+  {
+    slug: 'registered-nurse-resume-example',
+    title: 'Registered Nurse Resume Example and Writing Guide (2026)',
+    excerpt:
+      'How to write a registered nurse resume that highlights your credentials, clinical skills, and patient outcomes — and passes hospital ATS screening.',
+    category: 'Job Search',
+    readTime: '7 min read',
+    date: 'Jun 6, 2026',
+    author: 'Career Team',
+    published: '2026-06-06',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Nursing resumes are unique: licensure and certifications are non-negotiable screening criteria, and large healthcare systems lean heavily on applicant tracking software. A strong RN resume puts your credentials front and center, then proves your clinical competence with specifics. Here is how to build one.',
+      },
+      { type: 'heading', text: 'The structure that works' },
+      {
+        type: 'list',
+        items: [
+          'Header: name, credentials (RN, BSN), email, phone, and city.',
+          'Licensure and certifications: license number/state, BLS, ACLS, PALS, and specialty certs — placed high.',
+          'Summary: your specialty, years of experience, and care setting.',
+          'Clinical experience: roles with unit type, patient population, and responsibilities.',
+          'Education: nursing degree and school.',
+          'Skills: clinical procedures, EHR systems, and specialties.',
+        ],
+      },
+      { type: 'heading', text: 'Lead with credentials' },
+      {
+        type: 'paragraph',
+        text: 'Recruiters and ATS filters screen for required licenses and certifications first. List them clearly near the top — including state, status, and expiration where relevant — so you are never filtered out for a credential you actually hold.',
+      },
+      { type: 'heading', text: 'Make clinical experience specific' },
+      {
+        type: 'paragraph',
+        text: 'Generic duties ("provided patient care") tell a recruiter nothing. Specify the unit, patient load, acuity, and outcomes.',
+      },
+      {
+        type: 'quote',
+        text: 'Weak: "Cared for patients on a busy floor." Strong: "Managed care for up to 6 acute med-surg patients per shift, maintaining a 98% medication-administration accuracy rate and contributing to a 15% reduction in unit fall incidents."',
+      },
+      { type: 'heading', text: 'Skills and systems to include' },
+      {
+        type: 'list',
+        items: [
+          'Clinical: IV therapy, wound care, telemetry, patient assessment, medication administration.',
+          'EHR systems: Epic, Cerner, Meditech.',
+          'Specialties: ICU, ER, med-surg, pediatrics, oncology — whatever applies.',
+          'Compliance: HIPAA, infection control, patient safety protocols.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Match the unit and certifications named in the job posting, keep formatting clean and single-column for ATS parsing, and confirm every credential is current before you apply.',
+      },
+    ],
+  },
+  {
+    slug: 'data-analyst-resume-example',
+    title: 'Data Analyst Resume Example and Writing Guide (2026)',
+    excerpt:
+      'A practical guide to writing a data analyst resume — the tools, technical skills, and impact-driven bullets that show you turn data into decisions.',
+    category: 'Job Search',
+    readTime: '7 min read',
+    date: 'Jun 3, 2026',
+    author: 'Career Team',
+    published: '2026-06-03',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Data analyst roles attract a flood of applicants, and hiring teams screen hard for specific tools and demonstrated business impact. A strong resume proves two things: that you have the technical toolkit (SQL, a BI platform, often Python or R) and that your analysis actually changed decisions. Here is how to show both.',
+      },
+      { type: 'heading', text: 'The structure that works' },
+      {
+        type: 'list',
+        items: [
+          'Header: name, email, phone, city, and links to LinkedIn, GitHub, or a portfolio.',
+          'Summary: your focus area, years of experience, and core stack.',
+          'Technical skills: languages, databases, BI tools, and methods — in plain text.',
+          'Experience: roles with bullets tying analysis to outcomes.',
+          'Projects: dashboards or analyses that show end-to-end work, especially for early-career analysts.',
+          'Education and certifications.',
+        ],
+      },
+      { type: 'heading', text: 'Write bullets that show impact, not tasks' },
+      {
+        type: 'paragraph',
+        text: 'Anyone can write a query — what matters is what your analysis enabled. Use the pattern [analysis you ran] + [tool] + [decision or result it drove].',
+      },
+      {
+        type: 'quote',
+        text: 'Weak: "Built dashboards in Tableau." Strong: "Built a Tableau churn dashboard that surfaced at-risk accounts, enabling a retention campaign that recovered $420K in annual recurring revenue."',
+      },
+      { type: 'heading', text: 'Technical skills to feature' },
+      {
+        type: 'list',
+        items: [
+          'SQL — almost always the top required skill; list it first.',
+          'BI and visualization: Tableau, Power BI, Looker.',
+          'Programming: Python or R, with key libraries (pandas, NumPy).',
+          'Spreadsheets and modeling: advanced Excel, statistical methods.',
+          'Data work: cleaning, ETL basics, A/B testing, forecasting.',
+        ],
+      },
+      { type: 'heading', text: 'Tips for early-career analysts' },
+      {
+        type: 'paragraph',
+        text: 'No formal analyst title yet? Let projects carry the resume. Describe a real dataset you analyzed, the tools you used, and the insight you produced — a linked dashboard or notebook is far more convincing than coursework alone.',
+      },
+      {
+        type: 'paragraph',
+        text: 'List the exact tools named in the job description where you genuinely know them, quantify the business value of your analysis, and run an ATS check before submitting.',
+      },
+    ],
+  },
+  {
+    slug: 'project-manager-resume-example',
+    title: 'Project Manager Resume Example and Writing Guide (2026)',
+    excerpt:
+      'How to write a project manager resume that proves you deliver on scope, budget, and timeline — with the methodologies and metrics employers screen for.',
+    category: 'Job Search',
+    readTime: '7 min read',
+    date: 'May 31, 2026',
+    author: 'Career Team',
+    published: '2026-05-31',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Project management resumes are judged on a simple question: can you deliver projects on scope, on budget, and on time? Strong candidates back that up with methodologies, team sizes, budgets, and outcomes. This guide shows how to structure and phrase a project manager resume that earns interviews.',
+      },
+      { type: 'heading', text: 'The structure that works' },
+      {
+        type: 'list',
+        items: [
+          'Header: name, email, phone, city, and LinkedIn.',
+          'Certifications: PMP, CSM, PRINCE2, or PMI-ACP — placed high, since many roles require them.',
+          'Summary: your domain, methodologies, and a flagship delivery result.',
+          'Experience: projects with scope, budget, team size, and outcomes.',
+          'Skills: methodologies and tools.',
+          'Education.',
+        ],
+      },
+      { type: 'heading', text: 'Quantify every project' },
+      {
+        type: 'paragraph',
+        text: 'Project management is inherently measurable, so vague bullets stand out for the wrong reasons. Use the pattern [project] + [scope: budget, team, timeline] + [methodology] + [outcome].',
+      },
+      {
+        type: 'quote',
+        text: 'Weak: "Managed multiple projects across teams." Strong: "Led a $2.4M ERP migration across 4 departments and 18 stakeholders using Agile/Scrum, delivering two weeks early and 8% under budget."',
+      },
+      { type: 'heading', text: 'Methodologies and tools to include' },
+      {
+        type: 'list',
+        items: [
+          'Methodologies: Agile, Scrum, Kanban, Waterfall, hybrid.',
+          'Tools: Jira, Asana, MS Project, Monday.com, Confluence.',
+          'Core skills: risk management, stakeholder communication, budgeting, resource planning.',
+          'Leadership: cross-functional team coordination and vendor management.',
+        ],
+      },
+      { type: 'heading', text: 'Match the methodology to the job' },
+      {
+        type: 'paragraph',
+        text: 'A software role likely wants Agile/Scrum; a construction or manufacturing role often expects Waterfall. Lead with the methodologies the posting names, and feature the project most similar in scope and industry.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Put required certifications near the top, quantify scope and outcomes on every project, and confirm your resume parses cleanly through an ATS check.',
+      },
+    ],
+  },
+  {
+    slug: 'sales-representative-resume-example',
+    title: 'Sales Representative Resume Example and Writing Guide (2026)',
+    excerpt:
+      'A guide to writing a sales resume that leads with numbers — quota attainment, revenue, and deal size — and proves you can close.',
+    category: 'Job Search',
+    readTime: '6 min read',
+    date: 'May 24, 2026',
+    author: 'Career Team',
+    published: '2026-05-24',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Sales is the one field where your resume can be almost entirely numbers — and it should be. Hiring managers want immediate proof that you hit quota and generate revenue. A strong sales resume puts performance metrics front and center and treats every bullet as evidence that you close. Here is how to build it.',
+      },
+      { type: 'heading', text: 'The structure that works' },
+      {
+        type: 'list',
+        items: [
+          'Header: name, email, phone, city, and LinkedIn.',
+          'Summary: your sales type (inside, field, SaaS, B2B), segment, and a headline performance stat.',
+          'Experience: roles led by quota attainment, revenue, and deal metrics.',
+          'Skills: sales methodologies and CRM tools.',
+          'Education and any sales certifications.',
+        ],
+      },
+      { type: 'heading', text: 'Lead with performance metrics' },
+      {
+        type: 'paragraph',
+        text: 'The first thing a sales manager wants to see is whether you hit your number. Make it impossible to miss. Use the pattern [result vs. quota] + [revenue/volume] + [context: segment, deal size, ranking].',
+      },
+      {
+        type: 'quote',
+        text: 'Weak: "Met sales targets consistently." Strong: "Achieved 134% of annual quota ($1.8M) in 2025, ranking #2 of 22 reps, with an average deal size of $45K in mid-market SaaS."',
+      },
+      {
+        type: 'paragraph',
+        text: 'Feature quota attainment, total revenue, percentage growth, new accounts closed, deal size, and any President\'s Club or ranking awards.',
+      },
+      { type: 'heading', text: 'Skills and tools to include' },
+      {
+        type: 'list',
+        items: [
+          'Methodologies: consultative selling, SPIN, Challenger, solution selling.',
+          'CRM and tools: Salesforce, HubSpot, Outreach, Gong.',
+          'Core skills: prospecting, pipeline management, negotiation, account management.',
+          'Sales motion: inbound, outbound, full-cycle, or closing.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Tailor the metrics to the role — new-business roles want closed deals and prospecting, account management wants retention and expansion. Quantify relentlessly, then verify clean ATS parsing before you apply.',
+      },
+    ],
+  },
+  {
     slug: 'free-ats-resume-checker',
     title: 'Free ATS Resume Checker: How to Test If Your Resume Will Pass in 2026',
     excerpt:
