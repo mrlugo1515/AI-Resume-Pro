@@ -127,8 +127,21 @@ export const entitlement = pgTable('entitlement', {
   plan: text('plan').notNull().default('free'),
   stripeCustomerId: text('stripeCustomerId'),
   lastProductId: text('lastProductId'),
+  // Referral program: the user's own shareable code and earned bonus credits.
+  // Each bonus credit raises the free-tier allowance for the optimize action.
+  referralCode: text('referralCode').unique(),
+  bonusCredits: integer('bonusCredits').notNull().default(0),
   createdAt: timestamp('createdAt').notNull().defaultNow(),
   updatedAt: timestamp('updatedAt').notNull().defaultNow(),
+})
+
+// One row per successful referral. referredUserId is unique so a given user
+// can only ever be attributed to a single referrer (no double-granting).
+export const referral = pgTable('referral', {
+  id: serial('id').primaryKey(),
+  referrerUserId: text('referrerUserId').notNull(),
+  referredUserId: text('referredUserId').notNull().unique(),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
 })
 
 // One row per metered AI action, used to enforce free-tier limits.

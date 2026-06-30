@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { headers } from 'next/headers'
-import { FileText, Plus, Clock, Download, TrendingUp, Target, Zap, Eye, ArrowUpRight, Calendar, BarChart3, Briefcase, Search, Bookmark, FileCheck } from 'lucide-react'
+import { FileText, Plus, Clock, Download, TrendingUp, Target, Zap, Eye, ArrowUpRight, Calendar, BarChart3, Briefcase, Search, Bookmark, FileCheck, Gift } from 'lucide-react'
 import { auth } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -218,6 +218,20 @@ export default async function DashboardPage() {
                         <p className="text-xs text-text-muted">Track your progress</p>
                       </div>
                       <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-accent-600 transition-colors" />
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/referrals" className="group">
+                  <div className="p-4 rounded-xl border border-border bg-surface hover:bg-primary-50 hover:border-primary-200 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-primary-100 flex items-center justify-center group-hover:bg-primary-200 transition-colors">
+                        <Gift className="w-5 h-5 text-primary-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-text-primary text-sm">Refer Friends</p>
+                        <p className="text-xs text-text-muted">Give one free, get one free</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-primary-600 transition-colors" />
                     </div>
                   </div>
                 </Link>

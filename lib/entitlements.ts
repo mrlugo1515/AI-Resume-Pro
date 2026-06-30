@@ -19,6 +19,9 @@ export const ACTION_LABELS: Record<MeteredAction, string> = {
 
 export type Plan = 'free' | 'pro'
 
+// Referral bonus credits apply to this action (the headline "free optimization").
+const CREDIT_ACTION: MeteredAction = 'optimize'
+
 export async function getPlan(userId: string): Promise<Plan> {
   const [row] = await db
     .select({ plan: entitlement.plan })
@@ -26,6 +29,24 @@ export async function getPlan(userId: string): Promise<Plan> {
     .where(eq(entitlement.userId, userId))
     .limit(1)
   return row?.plan === 'pro' ? 'pro' : 'free'
+}
+
+/** Plan + bonus credits in a single query. */
+async function getPlanAndCredits(userId: string): Promise<{ plan: Plan; bonusCredits: number }> {
+  const [row] = await db
+    .select({ plan: entitlement.plan, bonusCredits: entitlement.bonusCredits })
+    .from(entitlement)
+    .where(eq(entitlement.userId, userId))
+    .limit(1)
+  return {
+    plan: row?.plan === 'pro' ? 'pro' : 'free',
+    bonusCredits: row?.bonusCredits ?? 0,
+  }
+}
+
+// Effective free-tier limit for an action, including any referral bonus credits.
+function effectiveLimit(action: MeteredAction, bonusCredits: number): number {
+  return FREE_LIMITS[action] + (action === CREDIT_ACTION ? bonusCredits : 0)
 }
 
 export async function isPro(userId: string): Promise<boolean> {
@@ -53,8 +74,8 @@ export interface AccessResult {
  * Pro users are always allowed. Free users are allowed until they hit the limit.
  */
 export async function checkAccess(userId: string, action: MeteredAction): Promise<AccessResult> {
-  const plan = await getPlan(userId)
-  const limit = FREE_LIMITS[action]
+  const { plan, bonusCredits } = await getPlanAndCredits(userId)
+  const limit = effectiveLimit(action, bonusCredits)
   if (plan === 'pro') {
     return { allowed: true, plan, used: 0, limit, remaining: Infinity }
   }
@@ -98,10 +119,10 @@ export async function getUsageSummary(userId: string): Promise<{
   plan: Plan
   actions: Record<MeteredAction, { used: number; limit: number; remaining: number }>
 }> {
-  const plan = await getPlan(userId)
+  const { plan, bonusCredits } = await getPlanAndCredits(userId)
   const actions = {} as Record<MeteredAction, { used: number; limit: number; remaining: number }>
   for (const action of Object.keys(FREE_LIMITS) as MeteredAction[]) {
-    const limit = FREE_LIMITS[action]
+    const limit = effectiveLimit(action, bonusCredits)
     if (plan === 'pro') {
       actions[action] = { used: 0, limit, remaining: Infinity }
     } else {

@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { authClient } from '@/lib/auth-client'
+import { claimReferral } from '@/app/actions/referral'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -26,6 +27,25 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [refCode, setRefCode] = useState<string | null>(null)
+
+  // Capture a referral code from the URL (?ref=CODE) and remember it across
+  // the sign-in/sign-up toggle and refreshes until it's successfully claimed.
+  useEffect(() => {
+    try {
+      const fromUrl = new URLSearchParams(window.location.search).get('ref')
+      if (fromUrl) {
+        const code = fromUrl.trim().toUpperCase()
+        setRefCode(code)
+        window.localStorage.setItem('ref_code', code)
+      } else {
+        const stored = window.localStorage.getItem('ref_code')
+        if (stored) setRefCode(stored)
+      }
+    } catch {
+      // Ignore storage/parsing issues — referral is a non-critical enhancement.
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -42,6 +62,18 @@ export function AuthForm({ mode }: AuthFormProps) {
         if (result.error) {
           setError(result.error.message || 'Failed to sign up')
           return
+        }
+        // Attribute the referral (best-effort) now that the user is authed.
+        if (refCode) {
+          try {
+            await claimReferral(refCode)
+          } catch {
+            // Never block sign-up on referral attribution.
+          } finally {
+            try {
+              window.localStorage.removeItem('ref_code')
+            } catch {}
+          }
         }
       } else {
         const result = await authClient.signIn.email({
@@ -137,6 +169,18 @@ export function AuthForm({ mode }: AuthFormProps) {
                 : 'Start creating AI-optimized resumes today.'}
             </p>
           </div>
+
+          {mode === 'sign-up' && refCode && (
+            <div className="mb-6 flex items-start gap-3 p-3 rounded-lg bg-accent-50 border border-accent-200">
+              <span className="flex-shrink-0 mt-0.5 w-5 h-5 rounded-full bg-accent-100 flex items-center justify-center">
+                <Sparkles className="w-3 h-3 text-accent-600" />
+              </span>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                <span className="font-semibold text-text-primary">You were invited!</span> Create
+                your account to claim a free bonus resume optimization.
+              </p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {mode === 'sign-up' && (
