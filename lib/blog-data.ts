@@ -20,6 +20,409 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: 'free-ats-resume-checker',
+    title: 'Free ATS Resume Checker: How to Test If Your Resume Will Pass in 2026',
+    excerpt:
+      'Worried your resume is getting auto-rejected? Here is how to check whether your resume is ATS-friendly — using a free scan and simple manual tests that reveal exactly what recruiters\' software sees.',
+    category: 'Resume Tips',
+    readTime: '8 min read',
+    date: 'Jun 2, 2026',
+    author: 'Career Team',
+    published: '2026-06-02',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'If you are applying to jobs and hearing nothing back, the problem may not be your experience — it may be that a human never saw your resume at all. Most mid-size and large employers run applications through an Applicant Tracking System (ATS) that parses and ranks your resume before a recruiter opens it. The good news: you can check how ATS-friendly your resume is in a few minutes, for free, and fix the issues that get resumes silently filtered out.',
+      },
+      { type: 'heading', text: 'Why your resume might never reach a human' },
+      {
+        type: 'paragraph',
+        text: 'An ATS converts your document into structured text, then matches it against the job description. If the software cannot cleanly read your contact details, job titles, dates, and skills — or if your resume lacks the keywords the role calls for — you score low and drop out of the recruiter\'s search results. A beautifully designed resume can fail simply because the parser choked on a two-column layout.',
+      },
+      { type: 'heading', text: 'The 60-second manual ATS test' },
+      {
+        type: 'paragraph',
+        text: 'Before reaching for any tool, run this quick check yourself. Open your resume, select all the text, copy it, and paste it into a plain text editor (like Notepad or TextEdit in plain-text mode).',
+      },
+      {
+        type: 'list',
+        items: [
+          'Does everything appear in a logical top-to-bottom order? If sections jump around, the ATS will read them out of order too.',
+          'Are your name, email, and phone number all present as plain text — not trapped inside a header, image, or icon?',
+          'Did your bullet points survive as readable lines, or turn into stray symbols?',
+          'Are your job titles, companies, and dates still clearly paired together?',
+          'Is any text missing entirely? Missing text usually means it lived in a graphic, text box, or column the parser dropped.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'If the pasted version looks garbled or loses information, an ATS will struggle with it too — and that is your highest-priority fix.',
+      },
+      { type: 'heading', text: 'What an ATS checker actually looks for' },
+      {
+        type: 'list',
+        items: [
+          'Parse rate — whether your contact info, work history, education, and skills were correctly identified.',
+          'Keyword match — how many of the job description\'s key skills and terms appear in your resume.',
+          'Formatting risks — tables, columns, images, headers/footers, and uncommon fonts that break parsing.',
+          'Section headings — standard labels like "Work Experience," "Education," and "Skills" the system expects.',
+          'File type — text-based PDF or .docx, never a scanned image or screenshot.',
+        ],
+      },
+      { type: 'heading', text: 'How to read your match score' },
+      {
+        type: 'paragraph',
+        text: 'A match score estimates how closely your resume aligns with a specific job description. Do not chase a perfect 100% — that often means keyword stuffing, which reads poorly to the human on the other side. Aim to naturally cover the role\'s most-emphasized skills and responsibilities. If a critical required skill is genuinely part of your experience but missing from your resume, that is the gap worth closing.',
+      },
+      {
+        type: 'quote',
+        text: 'An ATS checker is not about tricking software. It is about making sure your real qualifications are visible to both the machine and the recruiter who searches it.',
+      },
+      { type: 'heading', text: 'Fixing the most common parsing failures' },
+      {
+        type: 'list',
+        items: [
+          'Switch from a multi-column template to a clean single-column layout.',
+          'Move contact details out of the header and into the body of the document.',
+          'Replace graphic skill bars and icons with plain text skill lists.',
+          'Use standard section headings instead of creative ones.',
+          'Add the exact skills and terms from the job posting where they truthfully apply.',
+          'Export as a text-based PDF or .docx and re-run the copy-paste test.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'You can run all of these checks at once with ForgeCareer AI\'s free scan: paste your resume and a job description, and you will get a match score plus specific, actionable fixes. Start with the manual test above, then let the tool catch what the eye misses.',
+      },
+    ],
+  },
+  {
+    slug: 'resume-keywords-guide',
+    title: 'How to Find the Right Resume Keywords (And Exactly Where to Put Them)',
+    excerpt:
+      'Resume keywords decide whether your application ranks or disappears. Here is how to find the right ones for any job and place them so they help both the ATS and the recruiter.',
+    category: 'Resume Tips',
+    readTime: '7 min read',
+    date: 'May 28, 2026',
+    author: 'Career Team',
+    published: '2026-05-28',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Resume keywords are the specific skills, tools, certifications, and role-related terms that hiring software and recruiters search for. Get them right and your resume surfaces near the top of the candidate pool. Get them wrong — or leave them out — and even a strong background can stay invisible. Here is how to identify the keywords that matter for each job and where to place them for maximum impact.',
+      },
+      { type: 'heading', text: 'Step 1: Mine the job description' },
+      {
+        type: 'paragraph',
+        text: 'Your single best keyword source is the posting itself. Read it twice and highlight every concrete requirement: hard skills (Python, Salesforce, financial modeling), tools and platforms, certifications, and recurring responsibilities. Terms that appear in the title, the first few bullets, or more than once are the highest priority.',
+      },
+      { type: 'heading', text: 'Step 2: Separate must-haves from nice-to-haves' },
+      {
+        type: 'list',
+        items: [
+          'Must-haves usually appear under "Requirements" or "Qualifications" and are often non-negotiable.',
+          'Nice-to-haves show up as "preferred," "bonus," or "a plus."',
+          'Prioritize must-haves you genuinely possess — those are the keywords most likely to be filtered on.',
+        ],
+      },
+      { type: 'heading', text: 'Step 3: Cross-check against similar postings' },
+      {
+        type: 'paragraph',
+        text: 'Pull up three or four listings for the same role at different companies. Skills that appear across all of them are industry-standard expectations for that job — strong signals that they belong on your resume, even if a single posting omits them.',
+      },
+      { type: 'heading', text: 'Where to place your keywords' },
+      {
+        type: 'list',
+        items: [
+          'Professional summary — work the target job title and two or three core skills into the opening lines.',
+          'Skills section — list priority hard skills here in plain text so the ATS catches them immediately.',
+          'Experience bullets — this is the most powerful spot, because keywords backed by results carry weight with humans too.',
+          'Job titles — if your real title was vague, add a clarifying standard title in parentheses.',
+        ],
+      },
+      {
+        type: 'quote',
+        text: 'The strongest keyword is one embedded in a measurable achievement. "Optimized" means little alone; "Optimized checkout flow, lifting conversion 18%" proves the skill.',
+      },
+      { type: 'heading', text: 'Use exact terms — and natural variations' },
+      {
+        type: 'paragraph',
+        text: 'If a posting says "project management," use that exact phrase rather than only "managed projects." Many systems match precise terms. At the same time, include sensible variations and acronyms (for example, both "search engine optimization" and "SEO") so you cover how different recruiters search.',
+      },
+      { type: 'heading', text: 'The one rule that overrides all others' },
+      {
+        type: 'paragraph',
+        text: 'Never list a keyword you cannot back up in an interview. Keyword stuffing might lift a score, but it collapses the moment a recruiter asks you to elaborate. Tailor honestly: include the terms that are genuinely true of your experience, place them where they will be seen, and prove them with results.',
+      },
+    ],
+  },
+  {
+    slug: 'resume-summary-examples',
+    title: 'How to Write a Resume Summary That Gets Interviews (With Examples)',
+    excerpt:
+      'Your resume summary is the first thing a recruiter reads. Learn the simple formula for writing one that hooks attention in seconds — with before-and-after examples you can adapt.',
+    category: 'Career Advice',
+    readTime: '6 min read',
+    date: 'May 21, 2026',
+    author: 'Career Team',
+    published: '2026-05-21',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'A resume summary is a two-to-four sentence pitch at the top of your resume that tells a recruiter who you are, what you do well, and the value you bring. Done right, it earns you the extra seconds that lead to a real read. Done poorly — or filled with empty buzzwords — it gets skipped. Here is how to write one that works.',
+      },
+      { type: 'heading', text: 'The simple formula' },
+      {
+        type: 'paragraph',
+        text: 'A strong summary follows a clear pattern: [Your role and years of experience] + [your top one or two specialties] + [a standout, quantified achievement] + [what you are aiming to do next]. Lead with your identity, prove your value with a number, and aim it at the job you want.',
+      },
+      { type: 'heading', text: 'Before and after' },
+      {
+        type: 'quote',
+        text: 'Before: "Hardworking professional with a passion for marketing and a proven track record of success in fast-paced environments."',
+      },
+      {
+        type: 'quote',
+        text: 'After: "Digital marketing manager with 6 years scaling B2B demand generation. Grew qualified leads 140% in 12 months and cut cost-per-lead by a third. Seeking to drive pipeline growth for a high-velocity SaaS team."',
+      },
+      {
+        type: 'paragraph',
+        text: 'The "after" version names a role, proves impact with specific numbers, and signals exactly what the candidate wants — giving the recruiter every reason to keep reading.',
+      },
+      { type: 'heading', text: 'Tailor it to every job' },
+      {
+        type: 'list',
+        items: [
+          'Echo the target job title so the recruiter instantly sees a match.',
+          'Feature the one or two skills the posting emphasizes most.',
+          'Swap in an achievement most relevant to that specific role.',
+          'Keep it to four lines or fewer — this is a hook, not your life story.',
+        ],
+      },
+      { type: 'heading', text: 'Summary vs. objective' },
+      {
+        type: 'paragraph',
+        text: 'A summary highlights what you have already accomplished and is right for most candidates. An objective states what you are looking for and only makes sense for career changers or new graduates with limited experience. When in doubt, write a summary — employers care more about your value than your wish list.',
+      },
+      { type: 'heading', text: 'Common mistakes to avoid' },
+      {
+        type: 'list',
+        items: [
+          'Vague adjectives like "dynamic," "motivated," or "results-driven" with nothing to back them.',
+          'Writing in the first person ("I am...") — keep it crisp and implied.',
+          'Listing responsibilities instead of achievements.',
+          'A generic summary reused for every application.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Write your summary last, after the rest of your resume is done — by then you will know which achievements are strongest and can feature the best one up top.',
+      },
+    ],
+  },
+  {
+    slug: 'how-long-should-resume-be',
+    title: 'How Long Should a Resume Be? The Definitive 2026 Answer',
+    excerpt:
+      'One page or two? The honest answer depends on your experience. Here are clear rules for the right resume length — and how to cut or expand without losing impact.',
+    category: 'Resume Tips',
+    readTime: '5 min read',
+    date: 'May 14, 2026',
+    author: 'Career Team',
+    published: '2026-05-14',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Few resume questions spark more debate than length. The truth is there is no universal rule — the right length depends on your experience and the role. What never changes is the principle behind it: every line must earn its place. Here is how to decide how long your resume should be.',
+      },
+      { type: 'heading', text: 'The quick rule of thumb' },
+      {
+        type: 'list',
+        items: [
+          'Students and early-career (0–3 years): one page.',
+          'Mid-career (roughly 3–10 years): one to two pages.',
+          'Senior, executive, or highly technical roles: two pages, occasionally three.',
+          'Academic CVs and research roles: length is expected and not capped the same way.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'When in doubt, lean shorter. A tight one-page resume almost always beats a padded two-pager.',
+      },
+      { type: 'heading', text: 'Why shorter usually wins' },
+      {
+        type: 'paragraph',
+        text: 'Recruiters spend only seconds on the first pass. A focused resume makes your strongest qualifications impossible to miss, while a long one buries them. Length is not a measure of accomplishment — relevance is.',
+      },
+      {
+        type: 'quote',
+        text: 'Your resume is a highlight reel, not an autobiography. Include what gets you this job, and cut everything that does not.',
+      },
+      { type: 'heading', text: 'How to cut a resume down' },
+      {
+        type: 'list',
+        items: [
+          'Remove roles older than 10–15 years unless they are directly relevant.',
+          'Trim each role to three to five of its strongest, most relevant bullets.',
+          'Delete an objective statement, references line, and "references available upon request."',
+          'Combine or cut early jobs that no longer add value.',
+          'Tighten wording — replace phrases with single strong verbs.',
+        ],
+      },
+      { type: 'heading', text: 'How to fill a resume that is too short' },
+      {
+        type: 'list',
+        items: [
+          'Add measurable results to existing bullets rather than inventing new roles.',
+          'Include relevant projects, internships, certifications, or volunteer work.',
+          'Expand your skills section with tools and technologies you genuinely use.',
+          'Add a concise summary that frames your strengths.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Format matters as much as length: a clean, single-column layout with consistent spacing reads longer and clearer than cramped text. Decide your length by relevance, then make every line work.',
+      },
+    ],
+  },
+  {
+    slug: 'software-engineer-resume-example',
+    title: 'Software Engineer Resume Example and Writing Guide (2026)',
+    excerpt:
+      'A practical breakdown of what a strong software engineer resume includes — structure, skills, and achievement bullets that get past the ATS and impress hiring managers.',
+    category: 'Job Search',
+    readTime: '8 min read',
+    date: 'May 7, 2026',
+    author: 'Career Team',
+    published: '2026-05-07',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'Software engineering is competitive, and a single role can draw hundreds of applicants. Your resume has to clear an ATS, then convince an engineer or hiring manager in seconds that you can build and ship. This guide breaks down the structure and content of a strong software engineer resume, with examples you can adapt.',
+      },
+      { type: 'heading', text: 'The structure that works' },
+      {
+        type: 'list',
+        items: [
+          'Header: name, email, phone, city, and links to GitHub, LinkedIn, and a portfolio.',
+          'Summary: one to three lines naming your specialty, years of experience, and core stack.',
+          'Skills: languages, frameworks, databases, cloud, and tools — in plain text.',
+          'Experience: roles in reverse-chronological order with achievement-focused bullets.',
+          'Projects: especially valuable for junior engineers or career changers.',
+          'Education: degree, bootcamp, or relevant certifications.',
+        ],
+      },
+      { type: 'heading', text: 'Write bullets that prove impact' },
+      {
+        type: 'paragraph',
+        text: 'Hiring managers want outcomes, not task lists. Use the pattern [action verb] + [what you built] + [technology] + [measurable result].',
+      },
+      {
+        type: 'quote',
+        text: 'Weak: "Worked on the backend API." Strong: "Built a Node.js microservice handling 2M daily requests, cutting average response time from 480ms to 110ms."',
+      },
+      {
+        type: 'paragraph',
+        text: 'Numbers — latency, scale, uptime, users, revenue, time saved — are what make engineering accomplishments concrete and credible.',
+      },
+      { type: 'heading', text: 'Get the skills section right' },
+      {
+        type: 'list',
+        items: [
+          'Group skills logically: Languages, Frameworks, Databases, Cloud/DevOps, Tools.',
+          'List the technologies named in the job description first, where you genuinely know them.',
+          'Skip vague entries like "good communication" here — show those in your bullets.',
+          'Avoid graphic proficiency bars; they break ATS parsing and tell recruiters little.',
+        ],
+      },
+      { type: 'heading', text: 'Tips for junior engineers' },
+      {
+        type: 'paragraph',
+        text: 'Without years of experience, let projects carry your resume. Describe what you built, the stack you used, and the problem it solved — a deployed app with a link beats a long list of coursework. Open-source contributions, hackathons, and internships all count as real experience.',
+      },
+      { type: 'heading', text: 'Before you submit' },
+      {
+        type: 'list',
+        items: [
+          'Confirm your GitHub and portfolio links work and show your best work.',
+          'Match your listed skills to the specific role you are applying for.',
+          'Keep it to one page if you have under 10 years of experience.',
+          'Run it through an ATS check to confirm everything parses cleanly.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Tailor this template to each application, lead with measurable results, and make your strongest project or achievement impossible to miss.',
+      },
+    ],
+  },
+  {
+    slug: 'common-resume-mistakes',
+    title: '12 Resume Mistakes That Get You Rejected — And How to Fix Each One',
+    excerpt:
+      'Most resumes are rejected for avoidable reasons. Here are the 12 most common mistakes that cost candidates interviews, with a quick fix for every one.',
+    category: 'Resume Tips',
+    readTime: '7 min read',
+    date: 'Apr 30, 2026',
+    author: 'Career Team',
+    published: '2026-04-30',
+    content: [
+      {
+        type: 'paragraph',
+        text: 'A great background can still produce a rejected application if the resume undercuts it. The encouraging part is that most resume mistakes are easy to fix once you know what to look for. Here are the twelve that most often cost candidates an interview — and how to correct each.',
+      },
+      { type: 'heading', text: 'Formatting and parsing mistakes' },
+      {
+        type: 'list',
+        items: [
+          'Multi-column or table-heavy layouts that confuse the ATS — switch to a single column.',
+          'Contact details hidden in the header or footer — move them into the body.',
+          'Saving as an image or scanned PDF — export a text-based PDF or .docx instead.',
+          'Creative section headings the software cannot recognize — use standard labels.',
+        ],
+      },
+      { type: 'heading', text: 'Content mistakes' },
+      {
+        type: 'list',
+        items: [
+          'Listing duties instead of achievements — rewrite bullets to show results.',
+          'No numbers anywhere — quantify impact with metrics wherever possible.',
+          'A generic resume sent to every job — tailor to each posting.',
+          'Missing the keywords from the job description — add the ones that genuinely apply.',
+          'A vague, buzzword-filled summary — replace it with a specific, quantified pitch.',
+        ],
+      },
+      { type: 'heading', text: 'Credibility mistakes' },
+      {
+        type: 'list',
+        items: [
+          'Typos and grammar errors — proofread, read aloud, and have someone else review.',
+          'Inconsistent formatting (fonts, dates, spacing) — standardize every detail.',
+          'An unprofessional email address — use a simple firstname.lastname format.',
+        ],
+      },
+      {
+        type: 'quote',
+        text: 'Recruiters look for reasons to shorten the pile. Every avoidable mistake hands them one. Eliminate the easy rejections and your real qualifications get a fair hearing.',
+      },
+      { type: 'heading', text: 'A final pre-send checklist' },
+      {
+        type: 'list',
+        items: [
+          'Single-column, ATS-friendly layout with standard headings.',
+          'Tailored to the specific job, with its priority keywords included.',
+          'Achievement-focused bullets backed by numbers.',
+          'Zero typos and fully consistent formatting.',
+          'Saved as a text-based PDF or .docx and tested for clean parsing.',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Run this checklist before every application. Catching these twelve mistakes takes minutes and can be the difference between silence and an interview invitation.',
+      },
+    ],
+  },
+  {
     slug: 'ultimate-guide-ats-resumes-2024',
     title: 'The Ultimate Guide to ATS-Optimized Resumes in 2024',
     excerpt:
